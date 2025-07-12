@@ -10,6 +10,7 @@ class DesignConfig {
   static const Color addCart = Color(0xFF1AC0C6);
   static const Color bottomNavigationSelected = Color(0xFF1AC0C6);
   static const Color bottomNavigation = Colors.grey;
+  static const Color lightBlue = Color(0xFFe3f6f5);
   static const Color deleteCart = Color(0xFFe74645);
   static const Color bookmarked = Color(0xFFe74645);
 

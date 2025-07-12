@@ -5,6 +5,7 @@ import '../providers/book_provider.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/cart_card.dart';
 import '../widgets/previous_order.dart';
+import 'payment_done_page.dart';
 
 class CartPage extends ConsumerStatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -189,8 +190,15 @@ class _CartPageState extends ConsumerState<CartPage>
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => ref.read(bookRepoProvider).purchaseAllCart(),
-              style: ElevatedButton.styleFrom(
+              onPressed: () async {
+                await ref.read(bookRepoProvider).purchaseAllCart();
+                if (context.mounted) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) =>  PaymentDonePage()),
+                  );
+                }
+              },              style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(

@@ -9,11 +9,12 @@ import '../widgets/bottom_navigation.dart';
 import '../widgets/details_row.dart';
 import 'description_page.dart';
 import 'details_page.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 class BookDetailPage extends StatefulWidget {
   final Book book;
   const BookDetailPage({super.key, required this.book});
+
   @override
   State<BookDetailPage> createState() => _BookDetailPageState();
 }
@@ -21,6 +22,11 @@ class BookDetailPage extends StatefulWidget {
 class _BookDetailPageState extends State<BookDetailPage> {
   late bool isBookmarked;
   late bool isInCart;
+
+  // ❗️فرض: لیست کتاب‌های خریداری شده (بعداً از Firestore لود کن)
+  final Set<String> purchasedBookIds = {
+    // 'bookId1', 'bookId2', ...
+  };
 
   @override
   void initState() {
@@ -41,6 +47,8 @@ class _BookDetailPageState extends State<BookDetailPage> {
   @override
   Widget build(BuildContext context) {
     final book = widget.book;
+    final isPurchased = purchasedBookIds.contains(book.id);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -105,7 +113,6 @@ class _BookDetailPageState extends State<BookDetailPage> {
                 IconButton(
                   icon: const Icon(Icons.share),
                   onPressed: () {
-                    log('Clicked Share');
                     final text = '${book.title} by ${book.author}\nCheck it out on Lumo!';
                     Share.share(text);
                   },
@@ -113,11 +120,32 @@ class _BookDetailPageState extends State<BookDetailPage> {
               ],
             ),
             const SizedBox(height: 20),
-            CartADButton(
+
+            // ✅ دکمه خرید یا دانلود
+            isPurchased
+                ? ElevatedButton.icon(
+              icon: const Icon(Icons.download),
+              label: const Text('Download File'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              onPressed: () async {
+                final url = book.fileUrl;
+                if (await canLaunchUrl(Uri.parse(url))) {
+                  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Failed to open file')),
+                  );
+                }
+              },
+            )
+                : CartADButton(
               title: isInCart ? 'Delete from Cart' : 'Add to cart',
               price: book.price.toString(),
               discountPrice: book.discountPrice.toString(),
-              cardColor: isInCart ? DesignConfig.deleteCart: DesignConfig.addCart,
+              cardColor: isInCart ? DesignConfig.deleteCart : DesignConfig.addCart,
               onTap: () async {
                 final newStatus = !isInCart;
                 setState(() => isInCart = newStatus);
@@ -130,7 +158,9 @@ class _BookDetailPageState extends State<BookDetailPage> {
                 );
               },
             ),
+
             const SizedBox(height: 24),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -149,6 +179,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
             const Divider(height: 20),
             Text(book.description, maxLines: 5, overflow: TextOverflow.ellipsis),
             const SizedBox(height: 30),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -173,3 +204,4 @@ class _BookDetailPageState extends State<BookDetailPage> {
     );
   }
 }
+
