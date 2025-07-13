@@ -30,6 +30,11 @@ dependencies:
 
   http: '>=0.13.6 <2.0.0'
 
+  webview_flutter: ^4.4.1
+  syncfusion_flutter_pdfviewer: ^28.1.37
+  device_info_plus: ^10.1.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

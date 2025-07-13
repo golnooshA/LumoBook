@@ -2,59 +2,84 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/book.dart';
 
 class BookRepository {
-  final _col = FirebaseFirestore.instance.collection('books');
+  final CollectionReference _col = FirebaseFirestore.instance.collection('books');
 
-  Stream<List<Book>> watchAll() =>
-      _col.orderBy('title').snapshots().map((snap) =>
-          snap.docs.map((d) => Book.fromFirestore(d.data(), d.id)).toList()
-      );
+  /// Map Firestore snapshot to list of Book objects
+  List<Book> _fromSnap(QuerySnapshot snap) =>
+      snap.docs.map((doc) => Book.fromFirestore(doc.data() as Map<String, dynamic>, doc.id)).toList();
 
-  Stream<List<Book>> watchNewArrivals() => watchAll().map((books) =>
-      books.where((b) => !b.discount && b.discountPrice == 0).toList()
-  );
-
-  Stream<List<Book>> watchDiscounted() =>
-      _col.where('discountPrice', isGreaterThan: 0).snapshots().map((snap) =>
-          snap.docs.map((d) => Book.fromFirestore(d.data(), d.id)).toList()
-      );
-
-  Stream<List<Book>> watchByCategory(String category) =>
-      watchAll().map((books) =>
-          books.where((b) => b.categories.contains(category)).toList()
-      );
-
-  Stream<List<Book>> watchBookmarked() =>
-      _col.where('bookmark', isEqualTo: true).snapshots().map((snap) =>
-          snap.docs.map((d) => Book.fromFirestore(d.data(), d.id)).toList()
-      );
-
-  Stream<List<Book>> watchInCart() =>
-      _col.where('cart', isEqualTo: true).snapshots().map((snap) =>
-          snap.docs.map((d) => Book.fromFirestore(d.data(), d.id)).toList()
-      );
-
-  Stream<List<Book>> watchPurchased() =>
-      _col.where('purchased', isEqualTo: true).snapshots().map((snap) =>
-          snap.docs.map((d) => Book.fromFirestore(d.data(), d.id)).toList()
-      );
-
-  /// Toggle the bookmark flag
-  Future<void> toggleBookmark(String id, bool value) {
-    return _col.doc(id).update({'bookmark': value});
+  /// Watch all books, ordered by title
+  Stream<List<Book>> watchAll() {
+    return _col.orderBy('title').snapshots().map(_fromSnap);
   }
 
-  /// Toggle the cart flag
-  Future<void> toggleCart(String id, bool value) {
-    return _col.doc(id).update({'cart': value});
+  /// Watch books that are new arrivals (not discounted)
+  Stream<List<Book>> watchNewArrivals() {
+    return watchAll().map((books) =>
+        books.where((b) => !b.discount && b.discountPrice == 0).toList());
   }
 
-  /// Checkout: move all cart items to purchased
+  /// Watch books with discount price > 0
+  Stream<List<Book>> watchDiscounted() {
+    return _col
+        .where('discountPrice', isGreaterThan: 0)
+        .snapshots()
+        .map(_fromSnap);
+  }
+
+  /// Watch books in a specific category
+  Stream<List<Book>> watchByCategory(String category) {
+    return watchAll().map((books) =>
+        books.where((b) => b.categories.contains(category)).toList());
+  }
+
+  /// Watch bookmarked books
+  Stream<List<Book>> watchBookmarked() {
+    return _col
+        .where('bookmark', isEqualTo: true)
+        .snapshots()
+        .map(_fromSnap);
+  }
+
+  /// Watch books currently in the cart
+  Stream<List<Book>> watchInCart() {
+    return _col
+        .where('cart', isEqualTo: true)
+        .snapshots()
+        .map(_fromSnap);
+  }
+
+  /// Watch books that have been purchased
+  Stream<List<Book>> watchPurchased() {
+    return _col
+        .where('purchased', isEqualTo: true)
+        .snapshots()
+        .map(_fromSnap);
+  }
+
+  /// Toggle bookmark status for a book
+  Future<void> toggleBookmark(String bookId, bool value) {
+    return _col.doc(bookId).update({'bookmark': value});
+  }
+
+  /// Toggle cart status for a book
+  Future<void> toggleCart(String bookId, bool value) {
+    return _col.doc(bookId).update({'cart': value});
+  }
+
+  /// Checkout all cart items: mark them as purchased
   Future<void> purchaseAllCart() async {
+    final cartBooks = await _col.where('cart', isEqualTo: true).get();
+
     final batch = FirebaseFirestore.instance.batch();
-    final cartSnap = await _col.where('cart', isEqualTo: true).get();
-    for (final doc in cartSnap.docs) {
-      batch.update(doc.reference, {'cart': false, 'purchased': true});
+
+    for (final doc in cartBooks.docs) {
+      batch.update(doc.reference, {
+        'cart': false,
+        'purchased': true,
+      });
     }
-    return batch.commit();
+
+    await batch.commit();
   }
 }
