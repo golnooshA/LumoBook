@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import '../config/design_config.dart';
 
 abstract class AppTheme {
   static ThemeData light() {
     return ThemeData(
-      primarySwatch: Colors.blue,
+      useMaterial3: false, // Ensure compatibility with TabBarTheme
+      primaryColor: DesignConfig.primaryColor,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: DesignConfig.primaryColor,
+        primary: DesignConfig.primaryColor,
+      ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      // add more shared styles here…
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: DesignConfig.primaryColor,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
     );
   }
 }

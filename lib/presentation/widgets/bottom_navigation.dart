@@ -30,7 +30,7 @@ class BottomNavigation extends StatelessWidget {
     final items = [
       {'icon': Icons.home, 'label': 'Home'},
       {'icon': Icons.search, 'label': 'Search'},
-      {'icon': Icons.bookmark, 'label': 'Saved'},
+      {'icon': Icons.bookmark, 'label': 'My Library'},
       {'icon': Icons.shopping_cart, 'label': 'Cart'},
       {'icon': Icons.person, 'label': 'Profile'},
     ];

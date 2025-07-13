@@ -10,6 +10,8 @@ class AccountPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+
         backgroundColor: DesignConfig.appBarBackgroundColor,
         centerTitle: true,
         title: Text(
@@ -42,7 +44,10 @@ class AccountPage extends StatelessWidget {
             const SizedBox(height: 50),
             InkWell(
               onTap: () {
-                _showInfo(context, 'Change Password is disabled in guest mode.');
+                _showInfo(
+                  context,
+                  'Change Password is disabled in guest mode.',
+                );
               },
               child: Text(
                 'Change password',
@@ -85,8 +90,8 @@ class AccountPage extends StatelessWidget {
   }
 
   void _showInfo(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }

@@ -35,6 +35,8 @@ class _SearchPageState extends ConsumerState<SearchPage> {
     return Scaffold(
       backgroundColor: DesignConfig.backgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+
         backgroundColor: DesignConfig.appBarBackgroundColor,
         centerTitle: true,
         title: const Text('Search',

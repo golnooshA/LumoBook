@@ -9,6 +9,7 @@ import '../widgets/section_header.dart';
 import 'book_detail_page.dart';
 import 'discount_page.dart';
 import 'new_arrival_page.dart';
+import 'search_page.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -21,12 +22,40 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: DesignConfig.appBarBackgroundColor,
-        title: Text(
-          'Lumo',
-          style: TextStyle(
-            color: DesignConfig.appBarTitleColor,
-            fontWeight: FontWeight.w700,
-          ),
+        elevation: 0,
+        toolbarHeight: 80,
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Hello,',
+                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Jack Fisher',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+            IconButton(
+              icon: const Icon(Icons.search, color: Colors.black, size: 30),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SearchPage()),
+                );
+              },
+            )
+          ],
         ),
       ),
       bottomNavigationBar: const BottomNavigation(currentIndex: 0),
@@ -43,7 +72,6 @@ class HomePage extends ConsumerWidget {
               ],
             ),
           ),
-
           const SizedBox(height: 16),
 
           SectionHeader(
@@ -54,7 +82,13 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           newArrivals.when(
-            loading: () => const CircularProgressIndicator(),
+            loading: () => const Center(
+              child: SizedBox(
+                width: 32,
+                height: 32,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            ),
             error: (e, _) => Text('Error: $e'),
             data: (books) => HorizontalBookList(
               books: books.take(4).toList(),
@@ -73,7 +107,14 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           discounted.when(
-            loading: () => const CircularProgressIndicator(),
+            loading: () => const Center(
+              child: SizedBox(
+                width: 32,
+                height: 32,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            ),
+
             error: (e, _) => Text('Error: $e'),
             data: (books) => HorizontalBookList(
               books: books.take(4).toList(),

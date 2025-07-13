@@ -40,6 +40,8 @@ class _CartPageState extends ConsumerState<CartPage>
         backgroundColor: DesignConfig.appBarBackgroundColor,
         centerTitle: true,
         title: const Text('Cart'),
+        automaticallyImplyLeading: false,
+
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: DesignConfig.addCart,
@@ -58,8 +60,10 @@ class _CartPageState extends ConsumerState<CartPage>
                       backgroundColor: Colors.red,
                       child: Text(
                         '${list.length}',
-                        style:
-                        const TextStyle(color: Colors.white, fontSize: 12),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ],
@@ -85,8 +89,12 @@ class _CartPageState extends ConsumerState<CartPage>
                 return const Center(child: Text('No items in cart'));
               }
               final total = books.fold<double>(0, (sum, b) => sum + b.price);
-              final discount = books.fold<double>(0, (sum, b) =>
-              sum + (b.discountPrice > 0 ? (b.price - b.discountPrice) : 0));
+              final discount = books.fold<double>(
+                0,
+                (sum, b) =>
+                    sum +
+                    (b.discountPrice > 0 ? (b.price - b.discountPrice) : 0),
+              );
               final payable = total - discount;
 
               return Column(
@@ -103,8 +111,9 @@ class _CartPageState extends ConsumerState<CartPage>
                           price: b.price.toStringAsFixed(2),
                           discountPrice: b.discountPrice,
                           cover: b.coverUrl,
-                          deleteTap: () =>
-                              ref.read(bookRepoProvider).toggleCart(b.id, false),
+                          deleteTap: () => ref
+                              .read(bookRepoProvider)
+                              .toggleCart(b.id, false),
                           onTap: () {},
                         );
                       },
@@ -181,9 +190,14 @@ class _CartPageState extends ConsumerState<CartPage>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Payable', style: TextStyle(fontWeight: FontWeight.bold)),
-              Text('${payable.toStringAsFixed(2)} €',
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              const Text(
+                'Payable',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                '${payable.toStringAsFixed(2)} €',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ],
           ),
           const SizedBox(height: 16),
@@ -195,18 +209,21 @@ class _CartPageState extends ConsumerState<CartPage>
                 if (context.mounted) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (_) =>  PaymentDonePage()),
+                    MaterialPageRoute(builder: (_) => PaymentDonePage()),
                   );
                 }
-              },              style: ElevatedButton.styleFrom(
+              },
+              style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child:
-              const Text('Checkout', style: TextStyle(color: Colors.white)),
+              child: const Text(
+                'Checkout',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
         ],
