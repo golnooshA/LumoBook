@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/config/design_config.dart';
+
 class BookCoverCard extends StatelessWidget{
   final String bookCover;
   final VoidCallback onTap;
@@ -14,7 +16,7 @@ class BookCoverCard extends StatelessWidget{
         width: 120,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: DesignConfig.cardBorder,
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),

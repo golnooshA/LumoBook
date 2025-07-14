@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lumo_book/presentation/widgets/appBar_builder.dart';
 
 import '../../core/config/design_config.dart';
 import '../widgets/bottom_navigation.dart';
@@ -14,18 +15,8 @@ class DescriptionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: DesignConfig.appBarBackgroundColor,
-          centerTitle: true,
-          title: Text(
-            'Description',
-            style: TextStyle(
-              color: DesignConfig.appBarTitleColor,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w500,
-              fontSize: DesignConfig.appBarTitleFontSize,
-            ),
-          )),
+
+      appBar: AppBarBuilder(title: 'Description'),
       bottomNavigationBar:  const BottomNavigation(currentIndex: 1),
       body: SingleChildScrollView(
         child: Container(
@@ -34,8 +25,8 @@ class DescriptionPage extends StatelessWidget {
             description,
             style: TextStyle(
               color: DesignConfig.textColor,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w500,
+              fontFamily: DesignConfig.fontFamily,
+              fontWeight: DesignConfig.fontWeight,
               fontSize: DesignConfig.textSize,
             ),
           ) ),

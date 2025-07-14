@@ -25,7 +25,7 @@ class _PaymentDonePageState extends State<PaymentDonePage> {
               width: 220,
               height: 150,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: DesignConfig.cardBorder,
                 image: const DecorationImage(
                   image: AssetImage('assets/image/payment.jpg'),
                   fit: BoxFit.cover,
@@ -55,10 +55,10 @@ class _PaymentDonePageState extends State<PaymentDonePage> {
                     MaterialPageRoute(builder: (_) => HomePage()),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: DesignConfig.addCart,
+                    backgroundColor: DesignConfig.primaryColor,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: DesignConfig.cardBorder,
                     ),
                   ),
                   child: const Text(

@@ -55,7 +55,7 @@ class BottomNavigation extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: isActive
                   ? BoxDecoration(
-                color: DesignConfig.lightBlue,
+                color: DesignConfig.bottomNavigationBackground,
                 borderRadius: BorderRadius.circular(12),
               )
                   : null,
@@ -63,13 +63,13 @@ class BottomNavigation extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(items[index]['icon'] as IconData,
-                      color: isActive ? DesignConfig.bottomNavigationSelected: DesignConfig.bottomNavigation),
+                      color: isActive ? DesignConfig.primaryColor: DesignConfig.bottomNavigation),
                   const SizedBox(height: 4),
                   Text(
                     items[index]['label'] as String,
                     style: TextStyle(
                       fontSize: 12,
-                      color: isActive ? DesignConfig.bottomNavigationSelected: DesignConfig.bottomNavigation,
+                      color: isActive ? DesignConfig.primaryColor: DesignConfig.bottomNavigation,
                       fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                     ),
                   ),

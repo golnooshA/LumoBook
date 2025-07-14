@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lumo_book/presentation/widgets/appBar_builder.dart';
 import '../../core/config/design_config.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/user_avatar_picker.dart';
@@ -9,21 +10,7 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-
-        backgroundColor: DesignConfig.appBarBackgroundColor,
-        centerTitle: true,
-        title: Text(
-          'Account',
-          style: TextStyle(
-            color: DesignConfig.appBarTitleColor,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
-            fontSize: DesignConfig.appBarTitleFontSize,
-          ),
-        ),
-      ),
+      appBar: AppBarBuilder(title: 'Account', automaticallyImplyLeading: false),
       bottomNavigationBar: const BottomNavigation(currentIndex: 4),
       body: Container(
         margin: const EdgeInsets.all(20),
@@ -78,7 +65,7 @@ class AccountPage extends StatelessWidget {
               child: Text(
                 'Logout',
                 style: TextStyle(
-                  color: DesignConfig.addCart,
+                  color: DesignConfig.primaryColor,
                   fontSize: DesignConfig.textSize,
                 ),
               ),

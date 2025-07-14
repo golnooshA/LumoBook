@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lumo_book/presentation/widgets/border_price.dart';
+import 'package:lumo_book/presentation/widgets/price_with_discount.dart';
 
 import '../../core/config/design_config.dart';
 
@@ -22,9 +24,7 @@ class BookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final hasDiscount = discountPrice.isNotEmpty;
-
 
     return GestureDetector(
       onTap: onTap,
@@ -33,9 +33,9 @@ class BookCard extends StatelessWidget {
         children: [
           // Card with elevation & rounded corners
           Container(
+
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: DesignConfig.cardBorder,
               boxShadow: const [
                 BoxShadow(
                   color: DesignConfig.shadowColor,
@@ -45,7 +45,7 @@ class BookCard extends StatelessWidget {
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: DesignConfig.cardBorder,
               child: Image.network(
                 cover,
                 height: 270,
@@ -58,8 +58,10 @@ class BookCard extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontWeight: FontWeight.bold,
+              fontFamily: DesignConfig.fontFamily,
               fontSize: DesignConfig.textSize,
+              fontWeight: DesignConfig.fontWeight,
+              color: DesignConfig.textColor,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -69,73 +71,23 @@ class BookCard extends StatelessWidget {
             style: const TextStyle(
               color: DesignConfig.subTextColor,
               fontSize: DesignConfig.subTextSize,
+              fontFamily: DesignConfig.fontFamily,
+              fontWeight: DesignConfig.fontWeightLight,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 4),
-          hasDiscount ? _priceWithDiscount() : _borderPrice(price),
-
-
+          const SizedBox(height: 8),
+          hasDiscount
+              ? PriceWithDiscount(
+            price: price,
+            discountPrice: discountPrice,
+          )
+              : BorderPrice(value: price),
         ],
       ),
     );
   }
 
-  Widget _priceWithDiscount() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            border: Border.all(color: DesignConfig.priceColor),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            '€ $discountPrice',
-            style: const TextStyle(
-              color: DesignConfig.priceColor,
-              fontSize: 12,
-            ),
-          ),
-        ),
 
-
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          // decoration: BoxDecoration(
-          //   border: Border.all(color: DesignConfig.priceColor),
-          //   borderRadius: BorderRadius.circular(20),
-          // ),
-          child: Text(
-            price,
-            style: const TextStyle(
-                color: DesignConfig.subTextColor,
-                fontSize: 12,
-                decoration: TextDecoration.lineThrough,
-                decorationColor: DesignConfig.subTextColor
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _borderPrice(String value) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        border: Border.all(color: DesignConfig.priceColor),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        '€ $value',
-        style: const TextStyle(
-          color: DesignConfig.priceColor,
-          fontSize: 12,
-        ),
-      ),
-    );
-  }
 }
-

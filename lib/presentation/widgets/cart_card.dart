@@ -56,8 +56,10 @@ class CartCard extends StatelessWidget {
                   Text(
                     title,
                     style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      fontFamily: DesignConfig.fontFamily,
+                      fontSize: DesignConfig.textSize,
+                      fontWeight: DesignConfig.fontWeight,
+                      color: DesignConfig.textColor,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -66,8 +68,10 @@ class CartCard extends StatelessWidget {
                   Text(
                     author,
                     style: const TextStyle(
-                      fontSize: 13,
-                      color: Colors.black54,
+                      color: DesignConfig.subTextColor,
+                      fontSize: DesignConfig.subTextSize,
+                      fontFamily: DesignConfig.fontFamily,
+                      fontWeight: DesignConfig.fontWeightLight,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -88,9 +92,11 @@ class CartCard extends StatelessWidget {
                     Text(
                       '€ ${discountPrice.toStringAsFixed(2)}',
                       style: const TextStyle(
-                        color:  DesignConfig.priceColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                        color: DesignConfig.priceColor,
+
+                        fontSize: DesignConfig.subTextSize,
+                        fontFamily: DesignConfig.fontFamily,
+                        fontWeight: DesignConfig.fontWeight,
                       ),
                     ),
                   ] else
@@ -98,8 +104,10 @@ class CartCard extends StatelessWidget {
                       '€ $price',
                       style: const TextStyle(
                         color: DesignConfig.priceColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+
+                        fontSize: DesignConfig.subTextSize,
+                        fontFamily: DesignConfig.fontFamily,
+                        fontWeight: DesignConfig.fontWeight,
                       ),
                     ),
                 ],

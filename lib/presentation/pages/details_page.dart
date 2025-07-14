@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../core/config/design_config.dart';
 import '../../data/models/book.dart';
+import '../widgets/appBar_builder.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/details_row.dart';
 
@@ -15,19 +16,7 @@ class DetailsPage extends StatelessWidget {
     final dateString = DateFormat.yMMMMd().format(book.publishDate);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: DesignConfig.appBarBackgroundColor,
-        centerTitle: true,
-        title: Text(
-          'Details',
-          style: TextStyle(
-            color: DesignConfig.appBarTitleColor,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
-            fontSize: DesignConfig.appBarTitleFontSize,
-          ),
-        ),
-      ),
+      appBar: AppBarBuilder(title: 'Details'),
       bottomNavigationBar: const BottomNavigation(currentIndex: 1),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

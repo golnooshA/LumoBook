@@ -7,6 +7,7 @@ import '../../core/config/design_config.dart';
 import '../../data/models/book.dart';
 import '../providers/book_provider.dart';
 import '../widgets/add_to_cart_button.dart';
+import '../widgets/appBar_builder.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/details_row.dart';
 import 'description_page.dart';
@@ -15,6 +16,7 @@ import 'pdf_viewer_page.dart';
 
 class BookDetailPage extends ConsumerStatefulWidget {
   final Book book;
+
   const BookDetailPage({super.key, required this.book});
 
   @override
@@ -49,16 +51,16 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
         .doc(widget.book.id)
         .update({'cart': newStatus});
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(newStatus ? 'Added to cart' : 'Removed from cart')),
+      SnackBar(
+        content: Text(newStatus ? 'Added to cart' : 'Removed from cart'),
+      ),
     );
   }
 
   void _openPdfInWebView(String url) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (_) => PDFWebViewPage(url: url),
-      ),
+      MaterialPageRoute(builder: (_) => PDFWebViewPage(url: url)),
     );
   }
 
@@ -68,21 +70,14 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
     final purchasedAsync = ref.watch(purchasedBooksProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        backgroundColor: DesignConfig.appBarBackgroundColor,
-        elevation: 0,
-      ),
+      appBar: AppBarBuilder(title: ''),
       bottomNavigationBar: const BottomNavigation(currentIndex: 1),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: ListView(
           children: [
             _buildCover(book.coverUrl),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             _buildTitle(book),
             const SizedBox(height: 8),
             _buildRatingRow(book),
@@ -93,12 +88,17 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => DescriptionPage(description: book.description),
+                  builder: (_) =>
+                      DescriptionPage(description: book.description),
                 ),
               );
             }),
             const Divider(height: 20),
-            Text(book.description, maxLines: 5, overflow: TextOverflow.ellipsis),
+            Text(
+              book.description,
+              maxLines: 5,
+              overflow: TextOverflow.ellipsis,
+            ),
             const SizedBox(height: 30),
             _buildSectionTitle('Details', () {
               Navigator.push(
@@ -144,7 +144,12 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
       textAlign: TextAlign.center,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      style: const TextStyle(
+        fontSize: DesignConfig.headerSize,
+        fontWeight: DesignConfig.fontWeight,
+        color: DesignConfig.textColor,
+        fontFamily: DesignConfig.fontFamily,
+      ),
     );
   }
 
@@ -154,23 +159,38 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
       children: [
         ...List.generate(
           5,
-              (i) => Icon(
-            i < book.rating.round() ? Icons.star : Icons.star_border,
-            color: Colors.amber,
-            size: 20,
-          ),
+              (i) =>
+              Icon(
+                i < book.rating.round() ? Icons.star : Icons.star_border,
+                color: DesignConfig.rating,
+                size: 20,
+              ),
         ),
         const SizedBox(width: 8),
-        Text(book.rating.toString(), style: const TextStyle(color: Colors.grey)),
+        Text(
+          book.rating.toString(),
+          style: const TextStyle(
+            color: DesignConfig.subTextColor,
+            fontSize: DesignConfig.tinyTextSize,
+            fontFamily: DesignConfig.fontFamily,
+            fontWeight: DesignConfig.fontWeightLight,
+          ),
+        ),
         const Spacer(),
         IconButton(
-          icon: Icon(isBookmarked ? Icons.bookmark : Icons.bookmark_border),
+          icon: Icon(
+            isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+            color: DesignConfig.primaryColor,
+            size: 30,
+          ),
           onPressed: _toggleBookmark,
         ),
         IconButton(
-          icon: const Icon(Icons.share),
+          icon: const Icon(
+              Icons.share, size: 30, color: DesignConfig.primaryColor),
           onPressed: () {
-            final text = '${book.title} by ${book.author}\nCheck it out on Lumo!';
+            final text =
+                '${book.title} by ${book.author}\nCheck it out on Lumo!';
             Share.share(text);
           },
         ),
@@ -178,28 +198,29 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
     );
   }
 
-  Widget _buildPurchaseButton(Book book, AsyncValue<List<Book>> purchasedAsync) {
+  Widget _buildPurchaseButton(Book book,
+      AsyncValue<List<Book>> purchasedAsync,) {
     return purchasedAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => const Text('Error loading purchase status'),
       data: (purchasedBooks) {
         final isPurchased = purchasedBooks.any((b) => b.id == book.id);
         if (isPurchased) {
-          return ElevatedButton.icon(
-            icon: const Icon(Icons.menu_book),
-            label: const Text('Read Book'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-            ),
-            onPressed: () => _openPdfInWebView(book.fileUrl),
+          return AddToCart(
+            title: 'Read Book',
+            price: '',
+            discountPrice: '',
+            cardColor: DesignConfig.orange,
+            onTap: () => _openPdfInWebView(book.fileUrl),
           );
         } else {
-          return CartADButton(
+          return AddToCart(
             title: isInCart ? 'Delete from Cart' : 'Add to cart',
             price: book.price.toString(),
             discountPrice: book.discountPrice.toString(),
-            cardColor: isInCart ? DesignConfig.deleteCart : DesignConfig.addCart,
+            cardColor: isInCart
+                ? DesignConfig.deleteCart
+                : DesignConfig.primaryColor,
             onTap: _toggleCart,
           );
         }
@@ -211,10 +232,20 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(title, style: const TextStyle(
+          color: DesignConfig.textColor,
+          fontSize: DesignConfig.subTextSize,
+          fontFamily: DesignConfig.fontFamily,
+          fontWeight: DesignConfig.fontWeightBold)),
         InkWell(
           onTap: onTap,
-          child: const Text('more >', style: TextStyle(color: Colors.orange)),
+          child: const Text('more >', style: TextStyle(
+            color: DesignConfig.orange,
+            fontFamily: DesignConfig.fontFamily,
+            fontSize: DesignConfig.subTextSize,
+            fontWeight: DesignConfig.fontWeightLight,
+
+          )),
         ),
       ],
     );

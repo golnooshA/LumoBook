@@ -33,6 +33,8 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../core/config/design_config.dart';
+
 class PDFWebViewPage extends StatefulWidget {
   final String url;
   const PDFWebViewPage({super.key, required this.url});
@@ -55,8 +57,20 @@ class _PDFWebViewPageState extends State<PDFWebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Read Book")),
-      body: WebViewWidget(controller: _controller),
+    appBar: AppBar(
+      backgroundColor: DesignConfig.appBarBackgroundColor,
+      centerTitle: true,
+      title: Text(
+        'Read Book',
+        style: TextStyle(
+          color: DesignConfig.appBarTitleColor,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w500,
+          fontSize: DesignConfig.appBarTitleFontSize,
+        ),
+      ),
+    ),
+    body: WebViewWidget(controller: _controller),
     );
   }
 }

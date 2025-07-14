@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:lumo_book/presentation/widgets/appBar_builder.dart';
 import '../../core/config/design_config.dart';
 import '../providers/book_provider.dart';
 import '../providers/category_provider.dart';
 import '../widgets/book_cover_card.dart';
 import '../widgets/bottom_navigation.dart';
+import '../widgets/category_list_bar.dart';
 import '../widgets/round_button.dart';
 import 'book_detail_page.dart';
 import 'category_page.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  const SearchPage({super.key});
 
   @override
   ConsumerState<SearchPage> createState() => _SearchPageState();
@@ -34,19 +35,13 @@ class _SearchPageState extends ConsumerState<SearchPage> {
 
     return Scaffold(
       backgroundColor: DesignConfig.backgroundColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
 
-        backgroundColor: DesignConfig.appBarBackgroundColor,
-        centerTitle: true,
-        title: const Text('Search',
-            style: TextStyle(fontWeight: FontWeight.w600)),
-      ),
+
+      appBar: AppBarBuilder(title: 'Search', automaticallyImplyLeading: false),
       bottomNavigationBar: const BottomNavigation(currentIndex: 1),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ─ Search field ─
           Padding(
             padding: const EdgeInsets.all(20),
             child: TextField(
@@ -67,31 +62,26 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text('Categories',
                 style: TextStyle(
-                  fontSize: DesignConfig.headerSize,
-                  fontWeight: FontWeight.bold,
+                  fontSize: DesignConfig.textSize,
+                  fontWeight: DesignConfig.fontWeightBold,
+                  fontFamily: DesignConfig.fontFamily,
+                  color: DesignConfig.textColor
                 )),
           ),
           const SizedBox(height: 12),
           SizedBox(
             height: 40,
             child: categoriesAsync.when(
-              loading: () => const SizedBox(),
-              error: (_, __) => const SizedBox(),
-              data: (cats) => ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                scrollDirection: Axis.horizontal,
-                itemCount: cats.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
-                itemBuilder: (_, i) {
-                  final c = cats[i].name;
-                  return GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => CategoryPage(category: c),
-                      ),
+              loading: () => const SizedBox(height: 40),
+              error: (_, __) => const SizedBox(height: 40),
+              data: (cats) => CategoryListBar(
+                categories: cats.map((e) => e.name).toList(),
+                onTap: (selectedCategory) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => CategoryPage(category: selectedCategory),
                     ),
-                    child: RoundButton(buttonText: c),
                   );
                 },
               ),
@@ -104,8 +94,10 @@ class _SearchPageState extends ConsumerState<SearchPage> {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text('Results',
                 style: TextStyle(
-                  fontSize: DesignConfig.headerSize,
-                  fontWeight: FontWeight.bold,
+                    fontSize: DesignConfig.textSize,
+                    fontWeight: DesignConfig.fontWeightBold,
+                    fontFamily: DesignConfig.fontFamily,
+                    color: DesignConfig.textColor
                 )),
           ),
           const SizedBox(height: 12),

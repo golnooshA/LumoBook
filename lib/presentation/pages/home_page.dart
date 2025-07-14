@@ -33,15 +33,20 @@ class HomePage extends ConsumerWidget {
               children: const [
                 Text(
                   'Hello,',
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                  style: TextStyle(
+                      fontFamily: DesignConfig.fontFamily,
+                      fontSize: DesignConfig.subTextSize,
+                      fontWeight: DesignConfig.fontWeightLight,
+                      color: DesignConfig.subTextColor),
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Jack Fisher',
+                  'User Name',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.black,
+                      fontFamily: DesignConfig.fontFamily,
+                      fontSize: DesignConfig.subTitleSize,
+                      fontWeight: DesignConfig.fontWeight,
+                      color: DesignConfig.textColor
                   ),
                 ),
               ],
@@ -61,9 +66,11 @@ class HomePage extends ConsumerWidget {
       bottomNavigationBar: const BottomNavigation(currentIndex: 0),
       body: ListView(
         children: [
+          SizedBox(height: 12),
           Container(
             height: 200,
-            color: DesignConfig.light_light_blue,
+            color: DesignConfig.orange,
+            alignment: Alignment.center,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: const [
@@ -72,7 +79,7 @@ class HomePage extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          // const SizedBox(height: 12),
 
           SectionHeader(
             title: 'New Arrival',
@@ -124,6 +131,8 @@ class HomePage extends ConsumerWidget {
               ),
             ),
           ),
+
+
         ],
       ),
     );

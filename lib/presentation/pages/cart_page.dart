@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lumo_book/presentation/widgets/book_card.dart';
 import '../../core/config/design_config.dart';
 import '../providers/book_provider.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/cart_card.dart';
-import '../widgets/previous_order.dart';
+import 'book_detail_page.dart';
 import 'payment_done_page.dart';
 
 class CartPage extends ConsumerStatefulWidget {
-  const CartPage({Key? key}) : super(key: key);
+  const CartPage({super.key});
 
   @override
   ConsumerState<CartPage> createState() => _CartPageState();
@@ -44,9 +45,15 @@ class _CartPageState extends ConsumerState<CartPage>
 
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: DesignConfig.addCart,
-          labelColor: DesignConfig.addCart,
+          indicatorColor: DesignConfig.primaryColor,
+          labelColor: DesignConfig.primaryColor,
           unselectedLabelColor: Colors.grey,
+          labelStyle: const TextStyle(
+            color: DesignConfig.appBarTitleColor,
+            fontFamily: 'Poppins',
+            fontWeight: DesignConfig.fontWeightLight,
+            fontSize: DesignConfig.textSize,
+          ),
           tabs: [
             cartAsync.when(
               data: (list) => Tab(
@@ -62,7 +69,8 @@ class _CartPageState extends ConsumerState<CartPage>
                         '${list.length}',
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: DesignConfig.tinyTextSize,
+                          fontWeight: DesignConfig.fontWeight
                         ),
                       ),
                     ),
@@ -141,19 +149,24 @@ class _CartPageState extends ConsumerState<CartPage>
                   itemCount: books.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 0.5,
-                    crossAxisSpacing: 8,
+                    childAspectRatio: 0.48,
+                    crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
                   ),
                   itemBuilder: (_, i) {
                     final b = books[i];
-                    return PreviousOrder(
+                    return BookCard(
                       title: b.title,
                       author: b.author,
-                      price: b.price.toStringAsFixed(2),
-                      discountPrice: b.discountPrice.toStringAsFixed(2),
                       cover: b.coverUrl,
-                      onTap: () {},
+                      price: b.price.toStringAsFixed(2),
+                      discountPrice: (b.discount && b.discountPrice < b.price)
+                          ? b.discountPrice.toStringAsFixed(2)
+                          : '',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => BookDetailPage(book: b)),
+                      ),
                     );
                   },
                 ),
@@ -217,7 +230,7 @@ class _CartPageState extends ConsumerState<CartPage>
                 backgroundColor: Colors.red,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: DesignConfig.cardBorder,
                 ),
               ),
               child: const Text(

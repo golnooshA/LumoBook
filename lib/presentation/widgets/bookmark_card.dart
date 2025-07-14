@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/config/design_config.dart';
 
 class BookmarkCard extends StatelessWidget {
@@ -20,57 +19,61 @@ class BookmarkCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Card with elevation, image & bookmark icon
-          Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: DesignConfig.shadowColor,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    cover,
-                    height: 270,
-                    width: double.infinity,
-                    fit: BoxFit.fill,
+      child: ClipRRect(
+        borderRadius: DesignConfig.cardBorder,
+        child: Stack(
+          children: [
+            // Image container
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: DesignConfig.cardBorder,
+                boxShadow: const [
+                  BoxShadow(
+                    color: DesignConfig.shadowColor,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Image.network(
+                cover,
+                fit: BoxFit.fill,
+                width: double.infinity,
+                height: double.infinity,
+                errorBuilder: (_, __, ___) =>
+                const Icon(Icons.broken_image, size: 48),
+                loadingBuilder: (ctx, child, loadingProgress) =>
+                loadingProgress == null
+                    ? child
+                    : const Center(child: CircularProgressIndicator()),
+              ),
+            ),
+
+            // Bookmark icon
+            Positioned(
+              top: 8,
+              right: 8,
+              child: GestureDetector(
+                onTap: bookmarkTap,
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: DesignConfig.lightWhite,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    bookmark,
+                    color: DesignConfig.primaryColor,
+                    size: 22,
                   ),
                 ),
               ),
-              // Bookmark Icon Button
-              Positioned(
-                top: 8,
-                right: 8,
-                child: GestureDetector(
-                  onTap: bookmarkTap,
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      bookmark,
-                      color: DesignConfig.priceColor,
-                      size: 22,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/config/design_config.dart';
+
 class BannerCard extends StatelessWidget {
   final String image;
 
@@ -12,7 +14,7 @@ class BannerCard extends StatelessWidget {
       width: 220,
       height: 150,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: DesignConfig.cardBorder,
         // color: Colors.grey[300],
         image: DecorationImage(image: AssetImage(image), fit: BoxFit.fill),
       ),
