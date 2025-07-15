@@ -31,11 +31,10 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   @override
   Widget build(BuildContext context) {
     final categoriesAsync = ref.watch(categoriesProvider);
-    final allBooksAsync  = ref.watch(allBooksProvider);
+    final allBooksAsync = ref.watch(allBooksProvider);
 
     return Scaffold(
       backgroundColor: DesignConfig.backgroundColor,
-
 
       appBar: AppBarBuilder(title: 'Search', automaticallyImplyLeading: false),
       bottomNavigationBar: const BottomNavigation(currentIndex: 1),
@@ -60,13 +59,15 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           // ─ Categories ─
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text('Categories',
-                style: TextStyle(
-                  fontSize: DesignConfig.textSize,
-                  fontWeight: DesignConfig.fontWeightBold,
-                  fontFamily: DesignConfig.fontFamily,
-                  color: DesignConfig.textColor
-                )),
+            child: Text(
+              'Categories',
+              style: TextStyle(
+                fontSize: DesignConfig.textSize,
+                fontWeight: DesignConfig.fontWeightBold,
+                fontFamily: DesignConfig.fontFamily,
+                color: DesignConfig.textColor,
+              ),
+            ),
           ),
           const SizedBox(height: 12),
           SizedBox(
@@ -92,32 +93,49 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           const SizedBox(height: 20),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text('Results',
-                style: TextStyle(
-                    fontSize: DesignConfig.textSize,
-                    fontWeight: DesignConfig.fontWeightBold,
-                    fontFamily: DesignConfig.fontFamily,
-                    color: DesignConfig.textColor
-                )),
+            child: Text(
+              'Results',
+              style: TextStyle(
+                fontSize: DesignConfig.textSize,
+                fontWeight: DesignConfig.fontWeightBold,
+                fontFamily: DesignConfig.fontFamily,
+                color: DesignConfig.textColor,
+              ),
+            ),
           ),
           const SizedBox(height: 12),
           Expanded(
             child: allBooksAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => Center(child: Text('Error: $e')),
+              error: (e, _) => Center(
+                child: Text(
+                  'Error: $e',
+                  style: TextStyle(
+                    fontFamily: DesignConfig.fontFamily,
+                    fontSize: DesignConfig.textSize,
+                    fontWeight: DesignConfig.fontWeight,
+                    color: DesignConfig.textColor,
+                  ),
+                ),
+              ),
               data: (books) {
                 final filtered = books
                     .where((b) => b.matchesQuery(_query))
                     .toList();
 
                 if (filtered.isEmpty) {
-                  return const Center(child: Text('No books found'));
+                  return const Center(child: Text('No books found',
+                    style: TextStyle(
+                      fontFamily: DesignConfig.fontFamily,
+                      fontSize: DesignConfig.textSize,
+                      fontWeight: DesignConfig.fontWeight,
+                      color: DesignConfig.textColor,
+                    ),));
                 }
                 return GridView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   itemCount: filtered.length,
-                  gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: .65,
                     crossAxisSpacing: 12,

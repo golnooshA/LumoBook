@@ -83,8 +83,10 @@ class CartCard extends StatelessWidget {
                     Text(
                       '€ $price',
                       style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
+                        fontFamily: DesignConfig.fontFamily,
+                        fontSize: DesignConfig.tinyTextSize,
+                        fontWeight: DesignConfig.fontWeight,
+                        color: DesignConfig.subTextColor,
                         decoration: TextDecoration.lineThrough,
                       ),
                     ),

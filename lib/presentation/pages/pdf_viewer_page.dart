@@ -64,9 +64,9 @@ class _PDFWebViewPageState extends State<PDFWebViewPage> {
         'Read Book',
         style: TextStyle(
           color: DesignConfig.appBarTitleColor,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w500,
           fontSize: DesignConfig.appBarTitleFontSize,
+          fontFamily: DesignConfig.fontFamily,
+          fontWeight: DesignConfig.fontWeight,
         ),
       ),
     ),

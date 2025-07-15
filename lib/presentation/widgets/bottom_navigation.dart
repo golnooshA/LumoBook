@@ -15,14 +15,28 @@ class BottomNavigation extends StatelessWidget {
     if (index == currentIndex) return;
     Widget destination;
     switch (index) {
-      case 0: destination = const HomePage(); break;
-      case 1: destination = const SearchPage(); break;
-      case 2: destination = const BookmarkPage(); break;
-      case 3: destination = const CartPage(); break;
-      case 4: destination = const AccountPage(); break;
-      default: return;
+      case 0:
+        destination = const HomePage();
+        break;
+      case 1:
+        destination = const SearchPage();
+        break;
+      case 2:
+        destination = const BookmarkPage();
+        break;
+      case 3:
+        destination = const CartPage();
+        break;
+      case 4:
+        destination = const AccountPage();
+        break;
+      default:
+        return;
     }
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => destination));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => destination),
+    );
   }
 
   @override
@@ -40,7 +54,8 @@ class BottomNavigation extends StatelessWidget {
         color: const Color(0xFFF9F9F9),
         boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20), topRight: Radius.circular(20),
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -55,22 +70,31 @@ class BottomNavigation extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: isActive
                   ? BoxDecoration(
-                color: DesignConfig.bottomNavigationBackground,
-                borderRadius: BorderRadius.circular(12),
-              )
+                      color: DesignConfig.bottomNavigationBackground,
+                      borderRadius: BorderRadius.circular(12),
+                    )
                   : null,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(items[index]['icon'] as IconData,
-                      color: isActive ? DesignConfig.primaryColor: DesignConfig.bottomNavigation),
+                  Icon(
+                    items[index]['icon'] as IconData,
+                    color: isActive
+                        ? DesignConfig.primaryColor
+                        : DesignConfig.bottomNavigation,
+                  ),
                   const SizedBox(height: 4),
                   Text(
                     items[index]['label'] as String,
                     style: TextStyle(
-                      fontSize: 12,
-                      color: isActive ? DesignConfig.primaryColor: DesignConfig.bottomNavigation,
-                      fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                      fontFamily: DesignConfig.fontFamily,
+                      fontSize: DesignConfig.tinyTextSize,
+                      color: isActive
+                          ? DesignConfig.primaryColor
+                          : DesignConfig.bottomNavigation,
+                      fontWeight: isActive
+                          ? DesignConfig.fontWeightBold
+                          : DesignConfig.fontWeightLight,
                     ),
                   ),
                 ],

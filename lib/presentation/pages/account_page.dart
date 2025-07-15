@@ -25,6 +25,8 @@ class AccountPage extends StatelessWidget {
                 style: TextStyle(
                   color: DesignConfig.textColor,
                   fontSize: DesignConfig.headerSize,
+                    fontFamily: DesignConfig.fontFamily,
+                    fontWeight: DesignConfig.fontWeight,
                 ),
               ),
             ),
@@ -41,6 +43,8 @@ class AccountPage extends StatelessWidget {
                 style: TextStyle(
                   color: DesignConfig.textColor,
                   fontSize: DesignConfig.textSize,
+                  fontFamily: DesignConfig.fontFamily,
+                  fontWeight: DesignConfig.fontWeight,
                 ),
               ),
             ),
@@ -54,6 +58,8 @@ class AccountPage extends StatelessWidget {
                 style: TextStyle(
                   color: DesignConfig.deleteCart,
                   fontSize: DesignConfig.textSize,
+                  fontFamily: DesignConfig.fontFamily,
+                  fontWeight: DesignConfig.fontWeight,
                 ),
               ),
             ),
@@ -67,6 +73,8 @@ class AccountPage extends StatelessWidget {
                 style: TextStyle(
                   color: DesignConfig.primaryColor,
                   fontSize: DesignConfig.textSize,
+                  fontFamily: DesignConfig.fontFamily,
+                  fontWeight: DesignConfig.fontWeight,
                 ),
               ),
             ),

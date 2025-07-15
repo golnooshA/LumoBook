@@ -41,7 +41,7 @@ class HomePage extends ConsumerWidget {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'User Name',
+                  'Jack Fisher',
                   style: TextStyle(
                       fontFamily: DesignConfig.fontFamily,
                       fontSize: DesignConfig.subTitleSize,
@@ -96,7 +96,12 @@ class HomePage extends ConsumerWidget {
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
             ),
-            error: (e, _) => Text('Error: $e'),
+            error: (e, _) => Text('Error: $e',style: TextStyle(
+              fontFamily: DesignConfig.fontFamily,
+              fontSize: DesignConfig.textSize,
+              fontWeight: DesignConfig.fontWeight,
+              color: DesignConfig.textColor,
+            )),
             data: (books) => HorizontalBookList(
               books: books.take(4).toList(),
               onTap: (b) => Navigator.push(
@@ -122,7 +127,12 @@ class HomePage extends ConsumerWidget {
               ),
             ),
 
-            error: (e, _) => Text('Error: $e'),
+            error: (e, _) => Text('Error: $e',style: TextStyle(
+              fontFamily: DesignConfig.fontFamily,
+              fontSize: DesignConfig.textSize,
+              fontWeight: DesignConfig.fontWeight,
+              color: DesignConfig.textColor,
+            ),),
             data: (books) => HorizontalBookList(
               books: books.take(4).toList(),
               onTap: (b) => Navigator.push(

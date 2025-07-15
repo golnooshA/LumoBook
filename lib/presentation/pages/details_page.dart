@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../core/config/design_config.dart';
 import '../../data/models/book.dart';
 import '../widgets/appBar_builder.dart';
 import '../widgets/bottom_navigation.dart';

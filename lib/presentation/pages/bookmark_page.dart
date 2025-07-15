@@ -41,13 +41,15 @@ class _BookmarkPageState extends ConsumerState<BookmarkPage>
 
         backgroundColor: DesignConfig.appBarBackgroundColor,
         centerTitle: true,
-        title: const Text('My Library',
+        title: const Text(
+          'My Library',
           style: TextStyle(
             color: DesignConfig.appBarTitleColor,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
             fontSize: DesignConfig.appBarTitleFontSize,
-          )),
+            fontFamily: DesignConfig.fontFamily,
+            fontWeight: DesignConfig.fontWeight,
+          ),
+        ),
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: DesignConfig.primaryColor,
@@ -55,9 +57,9 @@ class _BookmarkPageState extends ConsumerState<BookmarkPage>
           unselectedLabelColor: Colors.grey,
           labelStyle: const TextStyle(
             color: DesignConfig.appBarTitleColor,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
             fontSize: DesignConfig.textSize,
+            fontFamily: DesignConfig.fontFamily,
+            fontWeight: DesignConfig.fontWeight,
           ),
           tabs: const [
             Tab(text: 'Bookmarks'),
@@ -74,9 +76,23 @@ class _BookmarkPageState extends ConsumerState<BookmarkPage>
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (e, _) => Center(child: Text('Error: $e')),
             data: (books) => books.isEmpty
-                ? const Center(child: Text('No bookmarks'))
+                ? const Center(
+                    child: Text(
+                      'No bookmarks',
+                      style: TextStyle(
+                        fontFamily: DesignConfig.fontFamily,
+                        fontSize: DesignConfig.textSize,
+                        fontWeight: DesignConfig.fontWeight,
+                        color: DesignConfig.textColor,
+                      ),
+                    ),
+                  )
                 : Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                      top: 20,
+                    ),
                     child: GridView.builder(
                       itemCount: books.length,
                       gridDelegate:
@@ -111,9 +127,23 @@ class _BookmarkPageState extends ConsumerState<BookmarkPage>
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (e, _) => Center(child: Text('Error: $e')),
             data: (books) => books.isEmpty
-                ? const Center(child: Text('No purchased books'))
+                ? const Center(
+                    child: Text(
+                      'No purchased books',
+                      style: TextStyle(
+                        fontFamily: DesignConfig.fontFamily,
+                        fontSize: DesignConfig.textSize,
+                        fontWeight: DesignConfig.fontWeight,
+                        color: DesignConfig.textColor,
+                      ),
+                    ),
+                  )
                 : Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                      top: 20,
+                    ),
                     child: GridView.builder(
                       itemCount: books.length,
                       gridDelegate:

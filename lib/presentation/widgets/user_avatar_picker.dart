@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../core/config/design_config.dart';
+
 class UserAvatarPicker extends StatefulWidget {
   final double radius;
 
@@ -32,7 +34,13 @@ class _UserAvatarPickerState extends State<UserAvatarPicker> {
           children: [
             ListTile(
               leading: const Icon(Icons.photo_camera),
-              title: const Text('Take Photo'),
+              title: const Text('Take Photo', style:
+                TextStyle(
+                  fontFamily: DesignConfig.fontFamily,
+                  fontWeight: DesignConfig.fontWeight,
+                  fontSize: DesignConfig.textSize,
+                  color: DesignConfig.textColor
+                )),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(ImageSource.camera);
@@ -40,7 +48,13 @@ class _UserAvatarPickerState extends State<UserAvatarPicker> {
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('Choose from Gallery'),
+              title: const Text('Choose from Gallery', style:
+              TextStyle(
+                  fontFamily: DesignConfig.fontFamily,
+                  fontWeight: DesignConfig.fontWeight,
+                  fontSize: DesignConfig.textSize,
+                  color: DesignConfig.textColor
+              )),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(ImageSource.gallery);

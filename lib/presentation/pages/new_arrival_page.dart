@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/config/design_config.dart';
 import '../providers/book_provider.dart';
 import '../widgets/appBar_builder.dart';
 import '../widgets/book_card.dart';
@@ -22,7 +23,12 @@ class NewArrivalPage extends ConsumerWidget {
           return Scaffold(
             appBar: AppBarBuilder(title: 'New Arrival'),
             bottomNavigationBar: const BottomNavigation(currentIndex: 0),
-            body: const Center(child: Text('No new arrivals')),
+            body: const Center(child: Text('No new arrivals',style: TextStyle(
+              fontFamily: DesignConfig.fontFamily,
+              fontSize: DesignConfig.textSize,
+              fontWeight: DesignConfig.fontWeight,
+              color: DesignConfig.textColor,
+            ),)),
           );
         }
         return Scaffold(

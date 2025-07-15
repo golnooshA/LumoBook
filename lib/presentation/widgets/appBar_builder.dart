@@ -5,8 +5,11 @@ class AppBarBuilder extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool automaticallyImplyLeading;
 
-  const AppBarBuilder({super.key, required this.title,
-    this.automaticallyImplyLeading = true});
+  const AppBarBuilder({
+    super.key,
+    required this.title,
+    this.automaticallyImplyLeading = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +21,9 @@ class AppBarBuilder extends StatelessWidget implements PreferredSizeWidget {
         title,
         style: TextStyle(
           color: DesignConfig.appBarTitleColor,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w500,
           fontSize: DesignConfig.appBarTitleFontSize,
+          fontFamily: DesignConfig.fontFamily,
+          fontWeight: DesignConfig.fontWeight,
         ),
       ),
     );

@@ -11,6 +11,9 @@ class DesignConfig {
   static const Color bottomNavigationBackground = Color(0xFFe3f6f5);
   static const Color deleteCart = Color(0xFFe74645);
   static const Color rating = Colors.amber;
+  static const Color buttonTextColor = Colors.white;
+
+
 
   static const Color priceColor = Color(0xFF00BFCB);
 

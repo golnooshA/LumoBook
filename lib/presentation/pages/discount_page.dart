@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/config/design_config.dart';
 import '../providers/book_provider.dart';
 import '../widgets/appBar_builder.dart';
 import '../widgets/book_card.dart';
@@ -34,7 +35,12 @@ class DiscountPage extends ConsumerWidget {
         if (validDiscounts.isEmpty) {
           return Scaffold(
             appBar: AppBarBuilder(title: 'Discount'),
-            body: const Center(child: Text('No active discounted books')),
+            body: const Center(child: Text('No active discounted books',style: TextStyle(
+              fontFamily: DesignConfig.fontFamily,
+              fontSize: DesignConfig.textSize,
+              fontWeight: DesignConfig.fontWeight,
+              color: DesignConfig.textColor,
+            ),)),
           );
         }
 

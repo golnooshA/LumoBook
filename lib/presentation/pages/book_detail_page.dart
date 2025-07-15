@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
-
 import '../../core/config/design_config.dart';
 import '../../data/models/book.dart';
 import '../providers/book_provider.dart';
@@ -52,7 +51,8 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
         .update({'cart': newStatus});
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(newStatus ? 'Added to cart' : 'Removed from cart'),
+        content: Text(newStatus ? 'Added to cart' : 'Removed from cart',
+        ),
       ),
     );
   }
@@ -159,12 +159,11 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
       children: [
         ...List.generate(
           5,
-              (i) =>
-              Icon(
-                i < book.rating.round() ? Icons.star : Icons.star_border,
-                color: DesignConfig.rating,
-                size: 20,
-              ),
+          (i) => Icon(
+            i < book.rating.round() ? Icons.star : Icons.star_border,
+            color: DesignConfig.rating,
+            size: 20,
+          ),
         ),
         const SizedBox(width: 8),
         Text(
@@ -187,7 +186,10 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
         ),
         IconButton(
           icon: const Icon(
-              Icons.share, size: 30, color: DesignConfig.primaryColor),
+            Icons.share,
+            size: 30,
+            color: DesignConfig.primaryColor,
+          ),
           onPressed: () {
             final text =
                 '${book.title} by ${book.author}\nCheck it out on Lumo!';
@@ -198,8 +200,10 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
     );
   }
 
-  Widget _buildPurchaseButton(Book book,
-      AsyncValue<List<Book>> purchasedAsync,) {
+  Widget _buildPurchaseButton(
+    Book book,
+    AsyncValue<List<Book>> purchasedAsync,
+  ) {
     return purchasedAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => const Text('Error loading purchase status'),
@@ -232,20 +236,26 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: const TextStyle(
-          color: DesignConfig.textColor,
-          fontSize: DesignConfig.subTextSize,
-          fontFamily: DesignConfig.fontFamily,
-          fontWeight: DesignConfig.fontWeightBold)),
+        Text(
+          title,
+          style: const TextStyle(
+            color: DesignConfig.textColor,
+            fontSize: DesignConfig.subTextSize,
+            fontFamily: DesignConfig.fontFamily,
+            fontWeight: DesignConfig.fontWeightBold,
+          ),
+        ),
         InkWell(
           onTap: onTap,
-          child: const Text('more >', style: TextStyle(
-            color: DesignConfig.orange,
-            fontFamily: DesignConfig.fontFamily,
-            fontSize: DesignConfig.subTextSize,
-            fontWeight: DesignConfig.fontWeightLight,
-
-          )),
+          child: const Text(
+            'more >',
+            style: TextStyle(
+              color: DesignConfig.orange,
+              fontFamily: DesignConfig.fontFamily,
+              fontSize: DesignConfig.subTextSize,
+              fontWeight: DesignConfig.fontWeightLight,
+            ),
+          ),
         ),
       ],
     );

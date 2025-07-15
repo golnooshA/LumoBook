@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lumo_book/presentation/pages/home_page.dart';
+import 'package:lumo_book/presentation/widgets/button_text.dart';
 import '../../core/config/design_config.dart';
 import '../widgets/bottom_navigation.dart';
 
@@ -39,32 +40,21 @@ class _PaymentDonePageState extends State<PaymentDonePage> {
               style: TextStyle(
                 color: DesignConfig.subTextColor,
                 fontSize: DesignConfig.headerSize,
-                fontWeight: FontWeight.w600,
+                fontWeight: DesignConfig.fontWeight,
+                fontFamily: DesignConfig.fontFamily,
               ),
             ),
 
             const SizedBox(height: 30),
 
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ElevatedButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => HomePage()),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: DesignConfig.primaryColor,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: DesignConfig.cardBorder,
-                    ),
-                  ),
-                  child: const Text(
-                    'Go Home',
-                    style: TextStyle(color: Colors.white),
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ButtonText(
+                backgroundColor: DesignConfig.primaryColor,
+                title: 'Go Home',
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => HomePage()),
                 ),
               ),
             ),

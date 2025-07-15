@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../core/config/design_config.dart';
+
 class AddToCart extends StatelessWidget {
   final String title;
   final String price;
@@ -46,9 +48,12 @@ class AddToCart extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
+                // fontWeight: FontWeight.bold,
                 color: Colors.white,
-                fontSize: 16,
+
+                  fontFamily: DesignConfig.fontFamily,
+                  fontSize: DesignConfig.textSize,
+                  fontWeight: DesignConfig.fontWeightBold,
               ),
             ),
             if (hasValidPrices) ...[
@@ -70,9 +75,11 @@ class AddToCart extends StatelessWidget {
         Text(
           '€ ${hasDiscount ? dp.toStringAsFixed(2) : pp.toStringAsFixed(2)}',
           style: const TextStyle(
-            fontWeight: FontWeight.bold,
             color: Colors.white,
-            fontSize: 16,
+
+            fontFamily: DesignConfig.fontFamily,
+            fontSize: DesignConfig.textSize,
+            fontWeight: DesignConfig.fontWeightBold,
           ),
         ),
         if (hasDiscount)
@@ -80,7 +87,10 @@ class AddToCart extends StatelessWidget {
             '€ ${pp.toStringAsFixed(2)}',
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 12,
+
+              fontFamily: DesignConfig.fontFamily,
+              fontSize: DesignConfig.subTextSize,
+              fontWeight: DesignConfig.fontWeight,
               decoration: TextDecoration.lineThrough,
               decorationColor: Colors.white,
             ),

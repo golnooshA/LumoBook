@@ -15,7 +15,6 @@ class BannerCard extends StatelessWidget {
       height: 150,
       decoration: BoxDecoration(
         borderRadius: DesignConfig.cardBorder,
-        // color: Colors.grey[300],
         image: DecorationImage(image: AssetImage(image), fit: BoxFit.fill),
       ),
     );
