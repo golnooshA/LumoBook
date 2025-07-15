@@ -7,7 +7,6 @@ import '../providers/category_provider.dart';
 import '../widgets/book_cover_card.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/category_list_bar.dart';
-import '../widgets/round_button.dart';
 import 'book_detail_page.dart';
 import 'category_page.dart';
 

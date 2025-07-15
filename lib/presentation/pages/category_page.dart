@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../core/config/design_config.dart';
 import '../providers/book_provider.dart';
 import '../widgets/appBar_builder.dart';
 import '../widgets/book_card.dart';
