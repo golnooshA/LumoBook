@@ -54,12 +54,13 @@
   <img src="assets/screenshots/book_2.png" width="22%" />
   <img src="assets/screenshots/book_3.png" width="22%" />
 <img src="assets/screenshots/book_4.png" width="22%" />
-  <img src="assets/screenshots/book.png" width="22%" />
 
 </p>
 
 <p align="center">
-    <img src="assets/screenshots/share.png" width="22%" />
+     <img src="assets/screenshots/book.png" width="22%" />
+
+   <img src="assets/screenshots/share.png" width="22%" />
   <img src="assets/screenshots/description.png" width="22%" />
   <img src="assets/screenshots/details.png" width="22%" />
 </p>
