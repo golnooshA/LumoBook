@@ -1,15 +1,12 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lumo_book/core/config/design_config.dart';
 import '../../core/config/routes.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/button_text.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/social_button.dart';
-import 'home_page.dart';
 import 'login_page.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -20,13 +17,14 @@ class RegisterPage extends ConsumerStatefulWidget {
 }
 
 class _RegisterPageState extends ConsumerState<RegisterPage> {
-  final _nameCtrl  = TextEditingController();
-  final _emailCtrl    = TextEditingController();
+  // final _nameCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
+    // _nameCtrl.dispose();
     _emailCtrl.dispose();
     _passwordCtrl.dispose();
     super.dispose();
@@ -35,11 +33,22 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   Future<void> _register() async {
     setState(() => _isLoading = true);
     try {
+      // Register user with email/password
       await ref.read(authRepositoryProvider).register(
         email: _emailCtrl.text.trim(),
         password: _passwordCtrl.text.trim(),
       );
-      Navigator.pushReplacementNamed(context, Routes.home);
+
+      // Update displayName with full name
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // await user.updateDisplayName(_nameCtrl.text.trim());
+        await user.reload(); // Make sure the updated name is applied
+      }
+
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, Routes.home);
+      }
     } on FirebaseAuthException catch (e) {
       _showError(e.message ?? 'Registration failed');
     } finally {
@@ -51,7 +60,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     setState(() => _isLoading = true);
     try {
       await ref.read(authRepositoryProvider).signInWithGoogle();
-      Navigator.pushReplacementNamed(context, Routes.home);
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, Routes.home);
+      }
     } catch (e) {
       _showError('Google sign-in failed: $e');
     } finally {
@@ -93,13 +104,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               ),
             ),
             const SizedBox(height: 32),
-            CustomTextField(
-              labelText: 'Full Name',
-              controller: _nameCtrl,
-            ),
+            // CustomTextField(
+            //   labelText: 'Full Name',
+            //   controller: _nameCtrl,
+            // ),
             const SizedBox(height: 20),
-            CustomTextField(labelText: 'Email',
-                controller: _emailCtrl),
+            CustomTextField(
+              labelText: 'Email',
+              controller: _emailCtrl,
+            ),
             const SizedBox(height: 20),
             CustomTextField(
               labelText: 'Password',
@@ -107,7 +120,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               controller: _passwordCtrl,
             ),
             const SizedBox(height: 24),
-
             if (_isLoading)
               const Center(child: CircularProgressIndicator())
             else ...[
@@ -155,13 +167,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
               ),
             ],
-
-
           ],
         ),
       ),
     );
   }
 }
-
-

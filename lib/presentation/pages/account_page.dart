@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lumo_book/presentation/widgets/appBar_builder.dart';
@@ -12,21 +11,19 @@ import 'login_page.dart';
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
 
-  Stream<QuerySnapshot> get bookStream =>
-      FirebaseFirestore.instance.collection('books').snapshots();
-
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    final displayName = user?.displayName?.trim().isNotEmpty == true
+
+    final displayName = (user?.displayName?.trim().isNotEmpty ?? false)
         ? user!.displayName!
         : user?.email?.split('@').first ?? 'Guest';
 
     return Scaffold(
       appBar: AppBarBuilder(title: 'Account', automaticallyImplyLeading: false),
       bottomNavigationBar: const BottomNavigation(currentIndex: 4),
-      body: Container(
-        margin: const EdgeInsets.all(20),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,8 +43,9 @@ class AccountPage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
 
+            /// Change Password
             TextButton(
-              onPressed: () => _showChangePasswordDialog(context), // ← use dialog
+              onPressed: () => _showChangePasswordDialog(context),
               child: const Text(
                 'Change Password',
                 style: TextStyle(
@@ -59,11 +57,9 @@ class AccountPage extends StatelessWidget {
               ),
             ),
 
-
-            /// Delete Account Button
+            /// Delete Account
             TextButton(
               onPressed: () => _confirmDeleteAccount(context),
-
               child: const Text(
                 'Delete Account',
                 style: TextStyle(
@@ -75,7 +71,7 @@ class AccountPage extends StatelessWidget {
               ),
             ),
 
-            /// Logout Button
+            /// Logout
             TextButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
@@ -83,7 +79,7 @@ class AccountPage extends StatelessWidget {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     '/login',
-                    (route) => false,
+                        (route) => false,
                   );
                 }
               },
@@ -120,7 +116,7 @@ class AccountPage extends StatelessWidget {
             ),
           ),
           content: SizedBox(
-            width: 300, // same as delete account dialog
+            width: 300,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -198,8 +194,6 @@ class AccountPage extends StatelessWidget {
     );
   }
 
-
-
   void _confirmDeleteAccount(BuildContext context) {
     showDialog(
       context: context,
@@ -245,7 +239,7 @@ class AccountPage extends StatelessWidget {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (_) => const LoginPage()),
-                    (route) => false,
+                        (route) => false,
                   );
                 } on FirebaseAuthException catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -254,7 +248,7 @@ class AccountPage extends StatelessWidget {
                         e.message ?? 'Error',
                         style: TextStyle(
                           fontFamily: DesignConfig.fontFamily,
-                          fontSize: DesignConfig.headerSize,
+                          fontSize: DesignConfig.textSize,
                           color: DesignConfig.textColor,
                           fontWeight: DesignConfig.fontWeight,
                         ),
@@ -267,7 +261,7 @@ class AccountPage extends StatelessWidget {
                 'Delete',
                 style: TextStyle(
                   fontFamily: DesignConfig.fontFamily,
-                  fontSize: DesignConfig.headerSize,
+                  fontSize: DesignConfig.textSize,
                   color: DesignConfig.deleteCart,
                   fontWeight: DesignConfig.fontWeightBold,
                 ),

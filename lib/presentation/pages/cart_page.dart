@@ -89,7 +89,7 @@ class _CartPageState extends ConsumerState<CartPage>
               loading: () => const Tab(text: 'Cart'),
               error: (_, __) => const Tab(text: 'Cart'),
             ),
-            const Tab(text: 'Previous'),
+            const Tab(text: 'Purchased'),
           ],
         ),
       ),

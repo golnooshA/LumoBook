@@ -20,8 +20,9 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final newArrivals = ref.watch(newArrivalsProvider);
     final discounted = ref.watch(discountedProvider);
+
     final user = FirebaseAuth.instance.currentUser;
-    final userName = user?.displayName?.trim().isNotEmpty == true
+    final displayName = (user?.displayName?.trim().isNotEmpty ?? false)
         ? user!.displayName!
         : user?.email?.split('@').first ?? 'User';
 
@@ -47,20 +48,14 @@ class HomePage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                FutureBuilder<User?>(
-                  future: Future.value(FirebaseAuth.instance.currentUser),
-                  builder: (context, snapshot) {
-
-                    return Text(
-                      userName,
-                      style: const TextStyle(
-                        fontFamily: DesignConfig.fontFamily,
-                        fontSize: DesignConfig.subTitleSize,
-                        fontWeight: DesignConfig.fontWeight,
-                        color: DesignConfig.textColor,
-                      ),
-                    );
-                  },
+                Text(
+                  displayName,
+                  style: const TextStyle(
+                    fontFamily: DesignConfig.fontFamily,
+                    fontSize: DesignConfig.subTitleSize,
+                    fontWeight: DesignConfig.fontWeight,
+                    color: DesignConfig.textColor,
+                  ),
                 ),
               ],
             ),
@@ -80,8 +75,6 @@ class HomePage extends ConsumerWidget {
       body: ListView(
         children: [
           const SizedBox(height: 12),
-
-          // Banner
           Container(
             height: 200,
             color: DesignConfig.orange,
@@ -94,8 +87,6 @@ class HomePage extends ConsumerWidget {
               ],
             ),
           ),
-
-          // New Arrival
           SectionHeader(
             title: 'New Arrival',
             onTap: () => Navigator.push(
@@ -131,8 +122,6 @@ class HomePage extends ConsumerWidget {
               ),
             ),
           ),
-
-          // Discount
           SectionHeader(
             title: 'Discount',
             onTap: () => Navigator.push(
