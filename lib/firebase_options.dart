@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '817372456116',
     projectId: 'lumoapp-33e70',
     storageBucket: 'lumoapp-33e70.firebasestorage.app',
+    androidClientId: '817372456116-nl00g6a1trk2nt4hp3ih6dnt6vfg66ka.apps.googleusercontent.com',
+    iosClientId: '817372456116-nr5q0n33o9jccpnfg3ifb2sa4969ffqd.apps.googleusercontent.com',
     iosBundleId: 'com.example.lumoBook',
   );
 
@@ -72,6 +74,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '817372456116',
     projectId: 'lumoapp-33e70',
     storageBucket: 'lumoapp-33e70.firebasestorage.app',
+    androidClientId: '817372456116-nl00g6a1trk2nt4hp3ih6dnt6vfg66ka.apps.googleusercontent.com',
+    iosClientId: '817372456116-nr5q0n33o9jccpnfg3ifb2sa4969ffqd.apps.googleusercontent.com',
     iosBundleId: 'com.example.lumoBook',
   );
 

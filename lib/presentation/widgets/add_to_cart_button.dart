@@ -60,7 +60,7 @@ class AddToCart extends StatelessWidget {
               const SizedBox(width: 12),
               Container(height: 24, width: 1, color: Colors.white),
               const SizedBox(width: 12),
-              _buildPriceBlock(hasDiscount, dp ?? 0, pp ?? 0),
+              _buildPriceBlock(hasDiscount, dp ?? 0, pp ),
             ],
           ],
         ),

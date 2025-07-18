@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../core/config/design_config.dart';
 import '../providers/book_provider.dart';
 import '../widgets/banner_card.dart';
@@ -18,6 +20,10 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final newArrivals = ref.watch(newArrivalsProvider);
     final discounted = ref.watch(discountedProvider);
+    final user = FirebaseAuth.instance.currentUser;
+    final userName = user?.displayName?.trim().isNotEmpty == true
+        ? user!.displayName!
+        : user?.email?.split('@').first ?? 'User';
 
     return Scaffold(
       appBar: AppBar(
@@ -30,24 +36,31 @@ class HomePage extends ConsumerWidget {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   'Hello,',
                   style: TextStyle(
-                      fontFamily: DesignConfig.fontFamily,
-                      fontSize: DesignConfig.subTextSize,
-                      fontWeight: DesignConfig.fontWeightLight,
-                      color: DesignConfig.subTextColor),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'Jack Fisher',
-                  style: TextStyle(
-                      fontFamily: DesignConfig.fontFamily,
-                      fontSize: DesignConfig.subTitleSize,
-                      fontWeight: DesignConfig.fontWeight,
-                      color: DesignConfig.textColor
+                    fontFamily: DesignConfig.fontFamily,
+                    fontSize: DesignConfig.subTextSize,
+                    fontWeight: DesignConfig.fontWeightLight,
+                    color: DesignConfig.subTextColor,
                   ),
+                ),
+                const SizedBox(height: 4),
+                FutureBuilder<User?>(
+                  future: Future.value(FirebaseAuth.instance.currentUser),
+                  builder: (context, snapshot) {
+
+                    return Text(
+                      userName,
+                      style: const TextStyle(
+                        fontFamily: DesignConfig.fontFamily,
+                        fontSize: DesignConfig.subTitleSize,
+                        fontWeight: DesignConfig.fontWeight,
+                        color: DesignConfig.textColor,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -59,14 +72,16 @@ class HomePage extends ConsumerWidget {
                   MaterialPageRoute(builder: (_) => const SearchPage()),
                 );
               },
-            )
+            ),
           ],
         ),
       ),
       bottomNavigationBar: const BottomNavigation(currentIndex: 0),
       body: ListView(
         children: [
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
+
+          // Banner
           Container(
             height: 200,
             color: DesignConfig.orange,
@@ -79,8 +94,8 @@ class HomePage extends ConsumerWidget {
               ],
             ),
           ),
-          // const SizedBox(height: 12),
 
+          // New Arrival
           SectionHeader(
             title: 'New Arrival',
             onTap: () => Navigator.push(
@@ -96,12 +111,18 @@ class HomePage extends ConsumerWidget {
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
             ),
-            error: (e, _) => Text('Error: $e',style: TextStyle(
-              fontFamily: DesignConfig.fontFamily,
-              fontSize: DesignConfig.textSize,
-              fontWeight: DesignConfig.fontWeight,
-              color: DesignConfig.textColor,
-            )),
+            error: (e, _) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                'Error: $e',
+                style: TextStyle(
+                  fontFamily: DesignConfig.fontFamily,
+                  fontSize: DesignConfig.textSize,
+                  fontWeight: DesignConfig.fontWeight,
+                  color: DesignConfig.textColor,
+                ),
+              ),
+            ),
             data: (books) => HorizontalBookList(
               books: books.take(4).toList(),
               onTap: (b) => Navigator.push(
@@ -111,6 +132,7 @@ class HomePage extends ConsumerWidget {
             ),
           ),
 
+          // Discount
           SectionHeader(
             title: 'Discount',
             onTap: () => Navigator.push(
@@ -126,13 +148,18 @@ class HomePage extends ConsumerWidget {
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
             ),
-
-            error: (e, _) => Text('Error: $e',style: TextStyle(
-              fontFamily: DesignConfig.fontFamily,
-              fontSize: DesignConfig.textSize,
-              fontWeight: DesignConfig.fontWeight,
-              color: DesignConfig.textColor,
-            ),),
+            error: (e, _) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                'Error: $e',
+                style: TextStyle(
+                  fontFamily: DesignConfig.fontFamily,
+                  fontSize: DesignConfig.textSize,
+                  fontWeight: DesignConfig.fontWeight,
+                  color: DesignConfig.textColor,
+                ),
+              ),
+            ),
             data: (books) => HorizontalBookList(
               books: books.take(4).toList(),
               onTap: (b) => Navigator.push(
@@ -141,8 +168,6 @@ class HomePage extends ConsumerWidget {
               ),
             ),
           ),
-
-
         ],
       ),
     );

@@ -10,17 +10,18 @@ import '../widgets/button_text.dart';
 import '../widgets/custom_text_field.dart';
 import '../widgets/social_button.dart';
 import 'home_page.dart';
-import 'register_page.dart';
+import 'login_page.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends ConsumerStatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
-  final _emailCtrl = TextEditingController();
+class _RegisterPageState extends ConsumerState<RegisterPage> {
+  final _nameCtrl  = TextEditingController();
+  final _emailCtrl    = TextEditingController();
   final _passwordCtrl = TextEditingController();
   bool _isLoading = false;
 
@@ -31,24 +32,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.dispose();
   }
 
-  Future<void> _login() async {
+  Future<void> _register() async {
     setState(() => _isLoading = true);
     try {
-      await ref
-          .read(authRepositoryProvider)
-          .signIn(
-            email: _emailCtrl.text.trim(),
-            password: _passwordCtrl.text.trim(),
-          );
+      await ref.read(authRepositoryProvider).register(
+        email: _emailCtrl.text.trim(),
+        password: _passwordCtrl.text.trim(),
+      );
       Navigator.pushReplacementNamed(context, Routes.home);
     } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? 'Login failed');
+      _showError(e.message ?? 'Registration failed');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  Future<void> _loginWithGoogle() async {
+  Future<void> _registerWithGoogle() async {
     setState(() => _isLoading = true);
     try {
       await ref.read(authRepositoryProvider).signInWithGoogle();
@@ -61,9 +60,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _showError(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
@@ -75,7 +74,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         child: ListView(
           children: [
             const Text(
-              'Welcome Back',
+              'Create Account',
               style: TextStyle(
                 color: DesignConfig.primaryColor,
                 fontSize: DesignConfig.subTitleSize,
@@ -85,7 +84,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             const SizedBox(height: 8),
             const Text(
-              "We've missed you",
+              "Sign Up to get started buddy",
               style: TextStyle(
                 color: DesignConfig.textColor,
                 fontSize: DesignConfig.subTextSize,
@@ -94,6 +93,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
             ),
             const SizedBox(height: 32),
+            CustomTextField(
+              labelText: 'Full Name',
+              controller: _nameCtrl,
+            ),
+            const SizedBox(height: 20),
             CustomTextField(labelText: 'Email',
                 controller: _emailCtrl),
             const SizedBox(height: 20),
@@ -108,8 +112,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               const Center(child: CircularProgressIndicator())
             else ...[
               ButtonText(
-                title: 'Sign In',
-                onTap: _login,
+                title: 'Sign Up',
+                onTap: _register,
                 backgroundColor: DesignConfig.primaryColor,
               ),
               const SizedBox(height: 24),
@@ -125,10 +129,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
               const SizedBox(height: 16),
               SocialButton(
-                title: 'Sign In with Google',
-                backgroundColor: Colors.white,
+                title: 'Sign Up with Google',
                 imagePath: 'assets/icon/google_icon.png',
-                onTap: _loginWithGoogle,
+                onTap: _registerWithGoogle,
+                backgroundColor: Colors.white,
               ),
               const SizedBox(height: 20),
               Center(
@@ -136,11 +140,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (_) => const RegisterPage()),
+                      MaterialPageRoute(builder: (_) => const LoginPage()),
                     );
                   },
                   child: const Text(
-                    "Don't have an account? Sign Up",
+                    "Already got an account? Sign In",
                     style: TextStyle(
                       color: DesignConfig.primaryColor,
                       fontSize: DesignConfig.subTextSize,
@@ -159,3 +163,5 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 }
+
+

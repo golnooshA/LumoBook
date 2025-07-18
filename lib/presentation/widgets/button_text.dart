@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/config/design_config.dart';
 
-class ButtonText extends ConsumerWidget {
+class ButtonText extends StatelessWidget {
   final String title;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Color backgroundColor;
 
   const ButtonText({
     super.key,
     required this.title,
-    required this.onTap,
-    this.backgroundColor = Colors.red,
-
+    this.onTap,
+    this.backgroundColor = DesignConfig.primaryColor,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
@@ -31,10 +29,11 @@ class ButtonText extends ConsumerWidget {
         child: Text(
           title,
           style: const TextStyle(
-            fontFamily: DesignConfig.fontFamily,
+            color: Colors.white,
             fontSize: DesignConfig.textSize,
-            fontWeight: DesignConfig.fontWeightBold,
-            color: DesignConfig.buttonTextColor),
+            fontWeight: FontWeight.bold,
+            fontFamily: DesignConfig.fontFamily,
+          ),
         ),
       ),
     );

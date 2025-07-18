@@ -1,3 +1,16 @@
+import org.gradle.api.tasks.Delete
+import org.gradle.api.file.Directory
+
+buildscript {
+    dependencies {
+        classpath("com.google.gms:google-services:4.4.0") // Firebase Gradle Plugin
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -6,14 +19,11 @@ allprojects {
 }
 
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
-rootProject.layout.buildDirectory.value(newBuildDir)
+rootProject.layout.buildDirectory.set(newBuildDir)
 
 subprojects {
-    val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
-    project.layout.buildDirectory.value(newSubprojectBuildDir)
-}
-subprojects {
-    project.evaluationDependsOn(":app")
+    layout.buildDirectory.set(newBuildDir.dir(name))
+    evaluationDependsOn(":app")
 }
 
 tasks.register<Delete>("clean") {

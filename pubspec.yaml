@@ -1,6 +1,5 @@
 name: lumo_book
 description: "A new Flutter project."
-
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -12,37 +11,46 @@ dependencies:
   flutter:
     sdk: flutter
 
-  firebase_core: ^2.24.2
-  cloud_firestore: ^4.14.0
+  # Firebase (compatible versions)
+  firebase_core: ^3.15.1
+  firebase_auth: ^5.6.2
+  cloud_firestore: ^5.6.11
+
+  # State Management
   flutter_riverpod: ^2.3.6
 
+  # Auth
+  google_sign_in: ^6.2.1
+
+  # UI & Utilities
   cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
   image_picker: ^1.0.4
-  intl: ^0.18.1
+  intl: ^0.20.2
   share_plus: ^11.0.0
   url_launcher: ^6.3.2
 
+  # Files & Network
   dio: ^5.4.0
   path_provider: ^2.1.2
-  permission_handler: ^11.3.1
+  permission_handler: ^12.0.1
   open_filex: ^4.3.2
+  http: ^1.2.2
 
-  http: '>=0.13.6 <2.0.0'
 
+  # Viewing
   webview_flutter: ^4.4.1
-  syncfusion_flutter_pdfviewer: ^28.1.37
-  device_info_plus: ^10.1.0
+  syncfusion_flutter_pdfviewer: ^30.1.40
 
+  # Device Info
+  device_info_plus: ^11.5.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
-
   uses-material-design: true
 
   assets:
@@ -63,6 +71,8 @@ flutter:
     - assets/image/banner_one.png
     - assets/image/banner_two.png
     - assets/image/payment.jpg
+    - assets/image/logo_1.png
+    - assets/image/logo_2.png
 
   fonts:
     - family: Poppins
