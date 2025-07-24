@@ -35,51 +35,7 @@ bookmark, and purchase books — and **read them in PDF format right inside the 
 
 ---
 
-## 📱 Screenshots
 
-<p align="center">
-   <img src="assets/screenshots/login.png" width="22%" />
-  <img src="assets/screenshots/register.png" width="22%" />
-  <img src="assets/screenshots/home.png" width="22%" />
-  <img src="assets/screenshots/search.png" width="22%" />
-</p>
-
-<p align="center">
-   <img src="assets/screenshots/new_arrive.png" width="22%" />
-  <img src="assets/screenshots/discount.png" width="22%" />
-    <img src="assets/screenshots/category.png" width="22%" />
-      <img src="assets/screenshots/bookmark.png" width="22%" />
-
-</p>
-<p align="center">
-  <img src="assets/screenshots/book_1.png" width="22%" />
-  <img src="assets/screenshots/book_2.png" width="22%" />
-  <img src="assets/screenshots/book_3.png" width="22%" />
-<img src="assets/screenshots/book_4.png" width="22%" />
-
-</p>
-
-<p align="center">
-     <img src="assets/screenshots/book.png" width="22%" />
-
-   <img src="assets/screenshots/share.png" width="22%" />
-  <img src="assets/screenshots/description.png" width="22%" />
-  <img src="assets/screenshots/details.png" width="22%" />
-</p>
-
-<p align="center">
-  <img src="assets/screenshots/cart.png" width="22%" />
-  <img src="assets/screenshots/purchased.png" width="22%" />
-    <img src="assets/screenshots/payment.png" width="22%" />
-
-
-</p>
-
-<p align="center">
-  <img src="assets/screenshots/account.png" width="22%" />
-  <img src="assets/screenshots/change_pass.png" width="22%" />
-  <img src="assets/screenshots/delete_account.png" width="22%" />
-</p>
 
 ---
 
