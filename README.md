@@ -1,6 +1,8 @@
 # 📚 LumoBook – Your Smart Book Shopping App
 
-**LumoBook** is a **Flutter-powered book shopping app** built for readers who want to discover, bookmark, and purchase books — and **read them in PDF format right inside the app**. It uses **Firebase** for backend services and supports **Google and email authentication**.
+**LumoBook** is a **Flutter-powered book shopping app** built for readers who want to discover,
+bookmark, and purchase books — and **read them in PDF format right inside the app**. It uses *
+*Firebase** for backend services and supports **Google and email authentication**.
 
 ---
 
@@ -68,14 +70,14 @@
 <p align="center">
   <img src="assets/screenshots/cart.png" width="22%" />
   <img src="assets/screenshots/purchased.png" width="22%" />
-    <img src="assets/screenshots/paymrnt.png" width="22%" />
+    <img src="assets/screenshots/payment.png" width="22%" />
 
-  
+
 </p>
 
 <p align="center">
   <img src="assets/screenshots/account.png" width="22%" />
-  <img src="assets/screenshots/chnage_pass.png" width="22%" />
+  <img src="assets/screenshots/change_pass.png" width="22%" />
   <img src="assets/screenshots/delete_account.png" width="22%" />
 </p>
 
