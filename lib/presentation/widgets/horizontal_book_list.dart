@@ -14,16 +14,35 @@ class HorizontalBookList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
+
+    final listHeight = isTablet ? 240.0 : 200.0;
+
+    if (books.isEmpty) {
+      return SizedBox(
+        height: listHeight,
+        child: Center(
+          child: Text(
+            'No books found.',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+      );
+    }
+
     return SizedBox(
-      height: 200,
-      child: ListView.builder(
-        padding: EdgeInsets.only(left: 20),
+      height: listHeight,
+      child: ListView.separated(
+        padding: const EdgeInsets.only(left: 20, right: 12),
         scrollDirection: Axis.horizontal,
         itemCount: books.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (_, index) {
           final book = books[index];
-          return BookCoverCard(bookCover: book.coverUrl,
-            onTap: () => onTap(book)
+          return BookCoverCard(
+            bookCover: book.coverUrl,
+            onTap: () => onTap(book),
           );
         },
       ),

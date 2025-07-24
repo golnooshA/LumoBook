@@ -26,7 +26,7 @@ class _PaymentDonePageState extends State<PaymentDonePage> {
               width: 220,
               height: 150,
               decoration: BoxDecoration(
-                borderRadius: DesignConfig.cardBorder,
+                borderRadius: DesignConfig.border,
                 image: const DecorationImage(
                   image: AssetImage('assets/image/payment.jpg'),
                   fit: BoxFit.cover,
@@ -40,7 +40,7 @@ class _PaymentDonePageState extends State<PaymentDonePage> {
               style: TextStyle(
                 color: DesignConfig.subTextColor,
                 fontSize: DesignConfig.headerSize,
-                fontWeight: DesignConfig.fontWeight,
+                fontWeight: DesignConfig.semiBold,
                 fontFamily: DesignConfig.fontFamily,
               ),
             ),

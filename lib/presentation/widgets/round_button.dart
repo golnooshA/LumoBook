@@ -8,21 +8,32 @@ class RoundButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scale = MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.3);
+    final isTablet = MediaQuery.of(context).size.width > 600;
+
     return Container(
       margin: const EdgeInsets.only(right: 4),
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: isTablet ? 20 : 16,
+        vertical: isTablet ? 10 : 8,
+      ),
       decoration: BoxDecoration(
         color: DesignConfig.lightBlue,
-        borderRadius: DesignConfig.cardBorder,
+        borderRadius: DesignConfig.border,
       ),
-      child: Text(
-        buttonText,
-        style: const TextStyle(
-            fontSize: DesignConfig.textSize,
-        fontFamily: DesignConfig.fontFamily,
-        fontWeight: DesignConfig.fontWeightLight,
-        color: DesignConfig.textColor),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          buttonText,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: DesignConfig.textSize * scale,
+            fontFamily: DesignConfig.fontFamily,
+            fontWeight: DesignConfig.light,
+            color: DesignConfig.textColor,
+          ),
+        ),
       ),
     );
   }

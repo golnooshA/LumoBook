@@ -6,7 +6,7 @@ import '../../core/config/design_config.dart';
 import '../../data/models/book.dart';
 import '../providers/book_provider.dart';
 import '../widgets/add_to_cart_button.dart';
-import '../widgets/appBar_builder.dart';
+import '../widgets/app_bar_builder.dart';
 import '../widgets/bottom_navigation.dart';
 import '../widgets/details_row.dart';
 import 'description_page.dart';
@@ -49,12 +49,13 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
         .collection('books')
         .doc(widget.book.id)
         .update({'cart': newStatus});
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(newStatus ? 'Added to cart' : 'Removed from cart',
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(newStatus ? 'Added to cart' : 'Removed from cart'),
         ),
-      ),
-    );
+      );
+    }
   }
 
   void _openPdfInWebView(String url) {
@@ -88,8 +89,7 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) =>
-                      DescriptionPage(description: book.description),
+                  builder: (_) => DescriptionPage(description: book.description),
                 ),
               );
             }),
@@ -98,6 +98,12 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
               book.description,
               maxLines: 5,
               overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: DesignConfig.subTextColor,
+                fontSize: DesignConfig.subTextSize,
+                fontFamily: DesignConfig.fontFamily,
+                fontWeight: DesignConfig.light
+              ),
             ),
             const SizedBox(height: 30),
             _buildSectionTitle('Details', () {
@@ -120,6 +126,8 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
   Widget _buildCover(String url) {
     return Center(
       child: Container(
+        width: 160,
+        height: 240,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -132,7 +140,11 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: Image.network(url, height: 220),
+          child: Image.network(
+            url,
+            fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) => const Icon(Icons.broken_image),
+          ),
         ),
       ),
     );
@@ -146,7 +158,7 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         fontSize: DesignConfig.headerSize,
-        fontWeight: DesignConfig.fontWeight,
+        fontWeight: DesignConfig.semiBold,
         color: DesignConfig.textColor,
         fontFamily: DesignConfig.fontFamily,
       ),
@@ -159,7 +171,7 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
       children: [
         ...List.generate(
           5,
-          (i) => Icon(
+              (i) => Icon(
             i < book.rating.round() ? Icons.star : Icons.star_border,
             color: DesignConfig.rating,
             size: 20,
@@ -172,7 +184,7 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
             color: DesignConfig.subTextColor,
             fontSize: DesignConfig.tinyTextSize,
             fontFamily: DesignConfig.fontFamily,
-            fontWeight: DesignConfig.fontWeightLight,
+            fontWeight: DesignConfig.light,
           ),
         ),
         const Spacer(),
@@ -191,8 +203,7 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
             color: DesignConfig.primaryColor,
           ),
           onPressed: () {
-            final text =
-                '${book.title} by ${book.author}\nCheck it out on Lumo!';
+            final text = '${book.title} by ${book.author}\nCheck it out on Lumo!';
             Share.share(text);
           },
         ),
@@ -200,10 +211,7 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
     );
   }
 
-  Widget _buildPurchaseButton(
-    Book book,
-    AsyncValue<List<Book>> purchasedAsync,
-  ) {
+  Widget _buildPurchaseButton(Book book, AsyncValue<List<Book>> purchasedAsync) {
     return purchasedAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => const Text('Error loading purchase status'),
@@ -214,7 +222,7 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
             title: 'Read Book',
             price: '',
             discountPrice: '',
-            cardColor: DesignConfig.orange,
+            cardColor: DesignConfig.secondColor,
             onTap: () => _openPdfInWebView(book.fileUrl),
           );
         } else {
@@ -222,9 +230,7 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
             title: isInCart ? 'Delete from Cart' : 'Add to cart',
             price: book.price.toString(),
             discountPrice: book.discountPrice.toString(),
-            cardColor: isInCart
-                ? DesignConfig.deleteCart
-                : DesignConfig.primaryColor,
+            cardColor: isInCart ? DesignConfig.deleteCart : DesignConfig.primaryColor,
             onTap: _toggleCart,
           );
         }
@@ -242,7 +248,7 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
             color: DesignConfig.textColor,
             fontSize: DesignConfig.subTextSize,
             fontFamily: DesignConfig.fontFamily,
-            fontWeight: DesignConfig.fontWeightBold,
+            fontWeight: DesignConfig.bold,
           ),
         ),
         InkWell(
@@ -250,10 +256,10 @@ class _BookDetailPageState extends ConsumerState<BookDetailPage> {
           child: const Text(
             'more >',
             style: TextStyle(
-              color: DesignConfig.orange,
+              color: DesignConfig.secondColor,
               fontFamily: DesignConfig.fontFamily,
               fontSize: DesignConfig.subTextSize,
-              fontWeight: DesignConfig.fontWeightLight,
+              fontWeight: DesignConfig.light,
             ),
           ),
         ),

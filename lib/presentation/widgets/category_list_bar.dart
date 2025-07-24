@@ -13,18 +13,20 @@ class CategoryListBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isTablet = MediaQuery.of(context).size.width > 600;
+
     return SizedBox(
-      height: 40,
+      height: isTablet ? 50 : 44,
       child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
         scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: categories.length,
         separatorBuilder: (_, __) => const SizedBox(width: 8),
         itemBuilder: (_, i) {
-          final c = categories[i];
+          final category = categories[i];
           return GestureDetector(
-            onTap: () => onTap(c),
-            child: RoundButton(buttonText: c),
+            onTap: () => onTap(category),
+            child: RoundButton(buttonText: category),
           );
         },
       ),

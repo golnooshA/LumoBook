@@ -33,7 +33,7 @@ class SplashPage extends ConsumerWidget {
               width: 220,
               height: 150,
               decoration: BoxDecoration(
-                borderRadius: DesignConfig.cardBorder,
+                borderRadius: DesignConfig.border,
                 image: const DecorationImage(
                   image: AssetImage('assets/image/logo_2.png'),
                   fit: BoxFit.cover,

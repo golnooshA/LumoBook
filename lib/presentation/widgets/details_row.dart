@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../core/config/design_config.dart';
 
 class DetailsRow extends StatelessWidget {
@@ -14,30 +13,41 @@ class DetailsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scale = MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.3);
+    final isTablet = MediaQuery.of(context).size.width > 600;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start, // Ensures tight vertical layout
         children: [
-          Text(
-            '$title: ',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: DesignConfig.fontWeight,
-              color: DesignConfig.subTextColor,
-              fontFamily: DesignConfig.fontFamily,
-              fontSize: DesignConfig.subTextSize,
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: isTablet ? 160 : 120,
+            ),
+            child: Text(
+              '$title:',
+              style: TextStyle(
+                fontWeight: DesignConfig.semiBold,
+                color: DesignConfig.subTextColor,
+                fontFamily: DesignConfig.fontFamily,
+                fontSize: DesignConfig.subTextSize * scale,
+                height: 1.3,
+              ),
             ),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              value,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: DesignConfig.fontWeight,
+              value.trim(),
+              style: TextStyle(
+                fontWeight: DesignConfig.semiBold,
                 color: DesignConfig.textColor,
                 fontFamily: DesignConfig.fontFamily,
-                fontSize: DesignConfig.subTextSize,
+                fontSize: DesignConfig.subTextSize * scale,
+                height: 1.3, // Consistent with title
               ),
+              softWrap: true,
               overflow: TextOverflow.visible,
             ),
           ),

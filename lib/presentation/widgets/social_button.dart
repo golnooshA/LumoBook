@@ -26,7 +26,7 @@ class SocialButton extends StatelessWidget {
           backgroundColor: backgroundColor,
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: DesignConfig.cardBorder,
+            borderRadius: DesignConfig.border,
           ),
         ),
         child: Row(
@@ -43,7 +43,7 @@ class SocialButton extends StatelessWidget {
               style: const TextStyle(
                 fontFamily: DesignConfig.fontFamily,
                 fontSize: DesignConfig.textSize,
-                fontWeight: DesignConfig.fontWeightBold,
+                fontWeight: DesignConfig.bold,
                 color: DesignConfig.textColor,
               ),
             ),

@@ -3,7 +3,7 @@ import org.gradle.api.file.Directory
 
 buildscript {
     dependencies {
-        classpath("com.google.gms:google-services:4.4.0") // Firebase Gradle Plugin
+        classpath("com.google.gms:google-services:4.4.0")
     }
     repositories {
         google()

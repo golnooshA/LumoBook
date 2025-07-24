@@ -26,6 +26,11 @@ class HomePage extends ConsumerWidget {
         ? user!.displayName!
         : user?.email?.split('@').first ?? 'User';
 
+    String capitalize(String text) {
+      if (text.isEmpty) return text;
+      return text[0].toUpperCase() + text.substring(1);
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: DesignConfig.appBarBackgroundColor,
@@ -43,17 +48,17 @@ class HomePage extends ConsumerWidget {
                   style: TextStyle(
                     fontFamily: DesignConfig.fontFamily,
                     fontSize: DesignConfig.subTextSize,
-                    fontWeight: DesignConfig.fontWeightLight,
+                    fontWeight: DesignConfig.light,
                     color: DesignConfig.subTextColor,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  displayName,
+                  capitalize(displayName),
                   style: const TextStyle(
                     fontFamily: DesignConfig.fontFamily,
                     fontSize: DesignConfig.subTitleSize,
-                    fontWeight: DesignConfig.fontWeight,
+                    fontWeight: DesignConfig.semiBold,
                     color: DesignConfig.textColor,
                   ),
                 ),
@@ -77,7 +82,7 @@ class HomePage extends ConsumerWidget {
           const SizedBox(height: 12),
           Container(
             height: 200,
-            color: DesignConfig.orange,
+            color: DesignConfig.secondColor,
             alignment: Alignment.center,
             child: ListView(
               scrollDirection: Axis.horizontal,
@@ -109,7 +114,7 @@ class HomePage extends ConsumerWidget {
                 style: TextStyle(
                   fontFamily: DesignConfig.fontFamily,
                   fontSize: DesignConfig.textSize,
-                  fontWeight: DesignConfig.fontWeight,
+                  fontWeight: DesignConfig.semiBold,
                   color: DesignConfig.textColor,
                 ),
               ),
@@ -144,7 +149,7 @@ class HomePage extends ConsumerWidget {
                 style: TextStyle(
                   fontFamily: DesignConfig.fontFamily,
                   fontSize: DesignConfig.textSize,
-                  fontWeight: DesignConfig.fontWeight,
+                  fontWeight: DesignConfig.semiBold,
                   color: DesignConfig.textColor,
                 ),
               ),

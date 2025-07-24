@@ -15,6 +15,7 @@ dependencies:
   firebase_core: ^3.15.1
   firebase_auth: ^5.6.2
   cloud_firestore: ^5.6.11
+  firebase_storage: ^12.4.10
 
   # State Management
   flutter_riverpod: ^2.3.6
@@ -29,6 +30,9 @@ dependencies:
   intl: ^0.20.2
   share_plus: ^11.0.0
   url_launcher: ^6.3.2
+  connectivity_plus: ^5.0.2
+  shared_preferences: ^2.5.3
+  shared_preferences_android: ^2.4.10
 
   # Files & Network
   dio: ^5.4.0
@@ -48,7 +52,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
 
 flutter:
   uses-material-design: true

@@ -66,7 +66,7 @@ class _PDFWebViewPageState extends State<PDFWebViewPage> {
           color: DesignConfig.appBarTitleColor,
           fontSize: DesignConfig.appBarTitleFontSize,
           fontFamily: DesignConfig.fontFamily,
-          fontWeight: DesignConfig.fontWeight,
+          fontWeight: DesignConfig.semiBold,
         ),
       ),
     ),

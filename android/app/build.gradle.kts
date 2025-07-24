@@ -1,6 +1,6 @@
 plugins {
     id("com.android.application")
-    id("com.google.gms.google-services") // Firebase config plugin
+    id("com.google.gms.google-services") // Firebase plugin
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin") // Must be last
 }
@@ -29,8 +29,13 @@ android {
 
     buildTypes {
         release {
-            // Use your own release keystore if available
-            signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                file("proguard-rules.pro")
+            )
+            signingConfig = signingConfigs.getByName("debug") // Use your own if needed
         }
     }
 }
@@ -43,5 +48,4 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
-
 }

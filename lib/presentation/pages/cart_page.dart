@@ -47,21 +47,19 @@ class _CartPageState extends ConsumerState<CartPage>
             color: DesignConfig.appBarTitleColor,
             fontSize: DesignConfig.appBarTitleFontSize,
             fontFamily: DesignConfig.fontFamily,
-            fontWeight: DesignConfig.fontWeight,
+            fontWeight: DesignConfig.semiBold,
           ),
         ),
         automaticallyImplyLeading: false,
-
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: DesignConfig.primaryColor,
           labelColor: DesignConfig.primaryColor,
           unselectedLabelColor: Colors.grey,
           labelStyle: const TextStyle(
-            color: DesignConfig.appBarTitleColor,
             fontSize: DesignConfig.textSize,
             fontFamily: DesignConfig.fontFamily,
-            fontWeight: DesignConfig.fontWeight,
+            fontWeight: DesignConfig.semiBold,
           ),
           tabs: [
             cartAsync.when(
@@ -79,7 +77,7 @@ class _CartPageState extends ConsumerState<CartPage>
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: DesignConfig.tinyTextSize,
-                          fontWeight: DesignConfig.fontWeight,
+                          fontWeight: DesignConfig.semiBold,
                         ),
                       ),
                     ),
@@ -97,215 +95,131 @@ class _CartPageState extends ConsumerState<CartPage>
       body: TabBarView(
         controller: _tabController,
         children: [
-          // In-Cart Items
-          cartAsync.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(
-              child: Text(
-                'Error: $e',
-                style: TextStyle(
-                  fontFamily: DesignConfig.fontFamily,
-                  fontSize: DesignConfig.textSize,
-                  fontWeight: DesignConfig.fontWeight,
-                  color: DesignConfig.textColor,
-                ),
-              ),
-            ),
-            data: (books) {
-              if (books.isEmpty) {
-                return const Center(
-                  child: Text(
-                    'No items in cart',
-                    style: TextStyle(
-                      fontFamily: DesignConfig.fontFamily,
-                      fontSize: DesignConfig.textSize,
-                      fontWeight: DesignConfig.fontWeight,
-                      color: DesignConfig.textColor,
-                    ),
-                  ),
-                );
-              }
-              final total = books.fold<double>(0, (sum, b) => sum + b.price);
-              final discount = books.fold<double>(
-                0,
-                (sum, b) =>
-                    sum +
-                    (b.discountPrice > 0 ? (b.price - b.discountPrice) : 0),
-              );
-              final payable = total - discount;
-
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(20),
-                      itemCount: books.length,
-                      itemBuilder: (_, i) {
-                        final b = books[i];
-                        return CartCard(
-                          title: b.title,
-                          author: b.author,
-                          price: b.price.toStringAsFixed(2),
-                          discountPrice: b.discountPrice,
-                          cover: b.coverUrl,
-                          deleteTap: () => ref
-                              .read(bookRepoProvider)
-                              .toggleCart(b.id, false),
-                          onTap: () {},
-                        );
-                      },
-                    ),
-                  ),
-                  const Divider(),
-                  _buildSummary(total, discount, payable),
-                ],
-              );
-            },
-          ),
-
-          // Previous Orders Grid
-          purchasedAsync.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(
-              child: Text(
-                'Error: $e',
-                style: TextStyle(
-                  fontFamily: DesignConfig.fontFamily,
-                  fontSize: DesignConfig.textSize,
-                  fontWeight: DesignConfig.fontWeight,
-                  color: DesignConfig.textColor,
-                ),
-              ),
-            ),
-            data: (books) {
-              if (books.isEmpty) {
-                return const Center(
-                  child: Text(
-                    'No previous orders',
-                    style: TextStyle(
-                      fontFamily: DesignConfig.fontFamily,
-                      fontSize: DesignConfig.textSize,
-                      fontWeight: DesignConfig.fontWeight,
-                      color: DesignConfig.textColor,
-                    ),
-                  ),
-                );
-              }
-              return Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-
-                child: GridView.builder(
-                  itemCount: books.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.48,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                  ),
-                  itemBuilder: (_, i) {
-                    final b = books[i];
-                    return BookCard(
-                      title: b.title,
-                      author: b.author,
-                      cover: b.coverUrl,
-                      price: b.price.toStringAsFixed(2),
-                      discountPrice: (b.discount && b.discountPrice < b.price)
-                          ? b.discountPrice.toStringAsFixed(2)
-                          : '',
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => BookDetailPage(book: b),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+          _buildCartTab(cartAsync),
+          _buildPurchasedTab(purchasedAsync),
         ],
       ),
     );
   }
 
+  Widget _buildCartTab(AsyncValue<List<dynamic>> cartAsync) {
+    return cartAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => _buildErrorText('Error: $e'),
+      data: (books) {
+        if (books.isEmpty) {
+          return _buildCenteredText('No items in cart');
+        }
+
+        final total = books.fold<double>(0, (sum, b) => sum + b.price);
+        final discount = books.fold<double>(
+          0,
+              (sum, b) => sum + (b.discountPrice > 0 ? (b.price - b.discountPrice) : 0),
+        );
+        final payable = total - discount;
+
+        return Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                itemCount: books.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 16),
+                itemBuilder: (_, i) {
+                  final b = books[i];
+                  return CartCard(
+                    title: b.title,
+                    author: b.author,
+                    price: b.price.toStringAsFixed(2),
+                    discountPrice: b.discountPrice,
+                    cover: b.coverUrl,
+                    deleteTap: () => ref.read(bookRepoProvider).toggleCart(b.id, false),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BookDetailPage(book: b),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const Divider(height: 1),
+            _buildSummary(total, discount, payable),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildPurchasedTab(AsyncValue<List<dynamic>> purchasedAsync) {
+    return purchasedAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => _buildErrorText('Error: $e'),
+      data: (books) {
+        if (books.isEmpty) {
+          return _buildCenteredText('No previous orders');
+        }
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final width = constraints.maxWidth;
+            final crossAxisCount = width >= 800
+                ? 4
+                : width >= 600
+                ? 3
+                : 2;
+
+            return Padding(
+              padding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              child: GridView.builder(
+                itemCount: books.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  childAspectRatio: 0.5,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemBuilder: (_, i) {
+                  final b = books[i];
+                  return BookCard(
+                    title: b.title,
+                    author: b.author,
+                    cover: b.coverUrl,
+                    price: b.price.toStringAsFixed(2),
+                    discountPrice: (b.discount && b.discountPrice < b.price)
+                        ? b.discountPrice.toStringAsFixed(2)
+                        : '',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => BookDetailPage(book: b),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   Widget _buildSummary(double total, double discount, double payable) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(16),
       color: Colors.grey[100],
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Total',
-                style: TextStyle(
-                  fontFamily: DesignConfig.fontFamily,
-                  fontSize: DesignConfig.subTextSize,
-                  fontWeight: DesignConfig.fontWeight,
-                  color: DesignConfig.subTextColor,
-                ),
-              ),
-              Text(
-                '${total.toStringAsFixed(2)} €',
-                style: TextStyle(
-                  fontFamily: DesignConfig.fontFamily,
-                  fontSize: DesignConfig.subTextSize,
-                  fontWeight: DesignConfig.fontWeight,
-                  color: DesignConfig.subTextColor,
-                ),
-              ),
-            ],
-          ),
+          _buildSummaryRow('Total', '${total.toStringAsFixed(2)} €', DesignConfig.subTextColor),
           const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Discount',
-                style: TextStyle(
-                  fontFamily: DesignConfig.fontFamily,
-                  fontSize: DesignConfig.subTextSize,
-                  fontWeight: DesignConfig.fontWeight,
-                  color: DesignConfig.deleteCart,
-                ),
-              ),
-              Text(
-                '-${discount.toStringAsFixed(2)} €',
-                style: TextStyle(
-                  fontFamily: DesignConfig.fontFamily,
-                  fontSize: DesignConfig.subTextSize,
-                  fontWeight: DesignConfig.fontWeight,
-                  color: DesignConfig.deleteCart,
-                ),
-              ),
-            ],
-          ),
+          _buildSummaryRow('Discount', '-${discount.toStringAsFixed(2)} €', DesignConfig.deleteCart),
           const SizedBox(height: 6),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Payable',
-                style: TextStyle(
-                  fontFamily: DesignConfig.fontFamily,
-                  fontSize: DesignConfig.textSize,
-                  fontWeight: DesignConfig.fontWeightBold,
-                  color: DesignConfig.textColor,
-                ),
-              ),
-              Text(
-                '${payable.toStringAsFixed(2)} €',
-                style: TextStyle(
-                  fontFamily: DesignConfig.fontFamily,
-                  fontSize: DesignConfig.textSize,
-                  fontWeight: DesignConfig.fontWeightBold,
-                  color: DesignConfig.textColor,
-                ),
-              ),
-            ],
-          ),
+          _buildSummaryRow('Payable', '${payable.toStringAsFixed(2)} €', DesignConfig.textColor, bold: true),
           const SizedBox(height: 16),
           ButtonText(
             title: 'Checkout',
@@ -314,7 +228,7 @@ class _CartPageState extends ConsumerState<CartPage>
               if (context.mounted) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => PaymentDonePage()),
+                  MaterialPageRoute(builder: (_) => const PaymentDonePage()),
                 );
               }
             },
@@ -323,4 +237,54 @@ class _CartPageState extends ConsumerState<CartPage>
       ),
     );
   }
+
+  Widget _buildSummaryRow(String label, String value, Color color, {bool bold = false}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontFamily: DesignConfig.fontFamily,
+            fontSize: DesignConfig.subTextSize,
+            fontWeight: bold ? DesignConfig.bold : DesignConfig.semiBold,
+            color: color,
+          ),
+        ),
+        Text(
+          value,
+          style: TextStyle(
+            fontFamily: DesignConfig.fontFamily,
+            fontSize: DesignConfig.subTextSize,
+            fontWeight: bold ? DesignConfig.bold : DesignConfig.semiBold,
+            color: color,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCenteredText(String text) => Center(
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontFamily: DesignConfig.fontFamily,
+        fontSize: DesignConfig.textSize,
+        fontWeight: DesignConfig.semiBold,
+        color: DesignConfig.textColor,
+      ),
+    ),
+  );
+
+  Widget _buildErrorText(String error) => Center(
+    child: Text(
+      error,
+      style: const TextStyle(
+        fontFamily: DesignConfig.fontFamily,
+        fontSize: DesignConfig.textSize,
+        fontWeight: DesignConfig.semiBold,
+        color: DesignConfig.textColor,
+      ),
+    ),
+  );
 }
