@@ -47,7 +47,6 @@ class _SearchPageState extends ConsumerState<SearchPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ─ Search field, categories, results label ─
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: TextField(
@@ -113,7 +112,6 @@ class _SearchPageState extends ConsumerState<SearchPage> {
               ),
               const SizedBox(height: 12),
 
-              // Wrap GridView.builder in SizedBox
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: allBooksAsync.when(

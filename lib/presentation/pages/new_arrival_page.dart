@@ -58,7 +58,7 @@ class NewArrivalPage extends ConsumerWidget {
                   : 2;
 
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                 child: GridView.builder(
                   itemCount: books.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

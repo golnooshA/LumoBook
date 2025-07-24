@@ -171,15 +171,14 @@ class _CartPageState extends ConsumerState<CartPage>
                 : 2;
 
             return Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: GridView.builder(
                 itemCount: books.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossAxisCount,
-                  childAspectRatio: 0.5,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.48,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
                 ),
                 itemBuilder: (_, i) {
                   final b = books[i];

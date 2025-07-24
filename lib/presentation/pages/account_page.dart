@@ -117,7 +117,6 @@ class _AccountPageState extends State<AccountPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
@@ -143,7 +142,6 @@ class _AccountPageState extends State<AccountPage> {
                     isUploading: _isUploading,
                     onTap: _pickAndSaveLocalImage,
                   ),
-
                 ),
                 const SizedBox(height: 16),
                 Center(
@@ -229,7 +227,15 @@ class _AccountPageState extends State<AccountPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Change Password'),
+        title: const Text(
+          'Change Password',
+          style: TextStyle(
+            color: DesignConfig.textColor,
+            fontSize: DesignConfig.textSize,
+            fontFamily: DesignConfig.fontFamily,
+            fontWeight: DesignConfig.bold,
+          ),
+        ),
         content: CustomTextField(
           labelText: 'New Password',
           controller: newPasswordController,
@@ -238,7 +244,13 @@ class _AccountPageState extends State<AccountPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                color: DesignConfig.primaryColor,
+                fontFamily: DesignConfig.fontFamily,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () async {
@@ -247,7 +259,7 @@ class _AccountPageState extends State<AccountPage> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Password must be at least 6 characters'),
-                    backgroundColor: Colors.orange,
+                    backgroundColor: DesignConfig.secondColor,
                   ),
                 );
                 return;
@@ -274,7 +286,13 @@ class _AccountPageState extends State<AccountPage> {
                 );
               }
             },
-            child: const Text('Save'),
+            child: const Text(
+              'Save',
+              style: TextStyle(
+                color: DesignConfig.secondColor,
+                fontFamily: DesignConfig.fontFamily,
+              ),
+            ),
           ),
         ],
       ),
@@ -285,13 +303,36 @@ class _AccountPageState extends State<AccountPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Account'),
-        content: const Text('Are you sure you want to delete your account?'),
+        title: const Text(
+          'Delete Account',
+
+          style: TextStyle(
+            color: DesignConfig.textColor,
+            fontSize: DesignConfig.textSize,
+            fontFamily: DesignConfig.fontFamily,
+            fontWeight: DesignConfig.bold,
+          ),
+        ),
+        content: const Text('Are you sure you want to delete your account?',
+
+          style: TextStyle(
+          color: DesignConfig.textColor,
+          fontSize: DesignConfig.subTextSize,
+          fontFamily: DesignConfig.fontFamily,
+          fontWeight: DesignConfig.light,
+        ),),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                color: DesignConfig.primaryColor,
+                fontFamily: DesignConfig.fontFamily,
+              ),
+            ),
           ),
+
           TextButton(
             onPressed: () async {
               Navigator.pop(context);
@@ -316,7 +357,9 @@ class _AccountPageState extends State<AccountPage> {
             },
             child: const Text(
               'Delete',
-              style: TextStyle(color: DesignConfig.deleteCart),
+              style: TextStyle(color: DesignConfig.deleteCart,
+                fontFamily: DesignConfig.fontFamily,
+              ),
             ),
           ),
         ],

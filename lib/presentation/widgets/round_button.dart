@@ -18,7 +18,7 @@ class RoundButton extends StatelessWidget {
         vertical: isTablet ? 10 : 8,
       ),
       decoration: BoxDecoration(
-        color: DesignConfig.lightBlue,
+        color: DesignConfig.primaryColor,
         borderRadius: DesignConfig.border,
       ),
       child: FittedBox(
@@ -31,7 +31,7 @@ class RoundButton extends StatelessWidget {
             fontSize: DesignConfig.textSize * scale,
             fontFamily: DesignConfig.fontFamily,
             fontWeight: DesignConfig.light,
-            color: DesignConfig.textColor,
+            color: DesignConfig.buttonTextColor,
           ),
         ),
       ),
